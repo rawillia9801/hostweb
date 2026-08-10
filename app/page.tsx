@@ -11,10 +11,10 @@ const products = [
 ] as const;
 
 const plans = [
-  { name: "Starter", subtitle: "One business website", description: "For a local business, creator, or professional launching a dependable web presence.", features: ["1 managed website", "SSL & HTTPS", "Domain connection", "Business email options", "Migration assistance"], cta: "Choose Starter" },
+  { name: "Starter", subtitle: "One business website", description: "For a local business, creator, or professional launching a dependable web presence.", features: ["1 managed website", "SSL & HTTPS", "Domain connection", "Business email options", "Migration assistance"], cta: "Choose Starter", popular: false },
   { name: "Business", subtitle: "Growing brands", description: "For businesses that need more resources, more email, and room for a second site or campaign.", features: ["Multiple website support", "More storage & resources", "Business email", "Backup options", "Priority setup assistance"], cta: "Choose Business", popular: true },
-  { name: "Pro", subtitle: "Busy & advanced sites", description: "For established sites that need stronger resource allocation and more hands-on technical support.", features: ["Higher resource allocation", "Multi-site management", "Advanced DNS assistance", "Priority technical support", "Migration planning"], cta: "Choose Pro" },
-  { name: "Agency", subtitle: "Multiple brands or clients", description: "For operators managing several websites, brands, client properties, or purpose-built solutions.", features: ["Multi-brand hosting", "Centralized management", "White-label-friendly workflows", "Scalable infrastructure", "Migration coordination"], cta: "Talk to sales" },
+  { name: "Pro", subtitle: "Busy & advanced sites", description: "For established sites that need stronger resource allocation and more hands-on technical support.", features: ["Higher resource allocation", "Multi-site management", "Advanced DNS assistance", "Priority technical support", "Migration planning"], cta: "Choose Pro", popular: false },
+  { name: "Agency", subtitle: "Multiple brands or clients", description: "For operators managing several websites, brands, client properties, or purpose-built solutions.", features: ["Multi-brand hosting", "Centralized management", "White-label-friendly workflows", "Scalable infrastructure", "Migration coordination"], cta: "Talk to sales", popular: false },
 ] as const;
 
 const solutions = [
@@ -26,9 +26,9 @@ const solutions = [
 
 const ecosystem = [
   { name: "HostMyWeb", type: "Infrastructure", text: "Hosting, domains, email, DNS, SSL, and the infrastructure layer underneath the product family.", href: "https://hostmyweb.co", current: true },
-  { name: "MyDogPortal", type: "Breeder Operating System", text: "Run the breeding program, families, puppies, communications, portals, and business workflow.", href: "https://mydogportal.site" },
-  { name: "DogBreederWeb", type: "Breeder Website Platform", text: "Build and operate purpose-built breeder websites that connect with breeder records and applications.", href: "https://dogbreederweb.site" },
-  { name: "DogBreederDocs", type: "Breeder Document Platform", text: "Create, manage, send, and complete professional breeder paperwork and document packets.", href: "https://dogbreederdocs.online" },
+  { name: "MyDogPortal", type: "Breeder Operating System", text: "Run the breeding program, families, puppies, communications, portals, and business workflow.", href: "https://mydogportal.site", current: false },
+  { name: "DogBreederWeb", type: "Breeder Website Platform", text: "Build and operate purpose-built breeder websites that connect with breeder records and applications.", href: "https://dogbreederweb.site", current: false },
+  { name: "DogBreederDocs", type: "Breeder Document Platform", text: "Create, manage, send, and complete professional breeder paperwork and document packets.", href: "https://dogbreederdocs.online", current: false },
 ] as const;
 
 export default function HomePage() {
