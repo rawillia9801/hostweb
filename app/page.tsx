@@ -2,138 +2,127 @@ import { ContactForm } from "@/components/contact-form";
 import { DomainSearch } from "@/components/domain-search";
 
 const products = [
-  { icon: "▦", title: "Web Hosting", kicker: "Fast, managed hosting", text: "Reliable hosting for business websites with SSL, backups, DNS assistance, migrations, and support built into the service.", points: ["Managed setup", "SSL included", "Migration help"] },
-  { icon: "W", title: "Managed WordPress", kicker: "WordPress without the babysitting", text: "A cleaner home for WordPress sites with managed infrastructure, security-minded setup, updates, backups, and migration support.", points: ["WordPress-ready", "Backup options", "Performance help"] },
-  { icon: "◎", title: "Domains & DNS", kicker: "Your brand starts with the name", text: "Search, register, connect, renew, and manage domains while keeping DNS organized and understandable.", points: ["Domain search", "DNS management", "Renewal support"] },
-  { icon: "✉", title: "Business Email", kicker: "Email on your own domain", text: "Professional mailboxes for your business so customers see your brand instead of a free consumer email address.", points: ["Custom-domain email", "Mailbox setup", "Migration assistance"] },
-  { icon: "◇", title: "SSL & Security", kicker: "Secure by default", text: "HTTPS, certificate management, DNS hygiene, security controls, and practical guidance for protecting your web presence.", points: ["SSL certificates", "HTTPS setup", "Security support"] },
-  { icon: "↗", title: "Website Migrations", kicker: "Move without the chaos", text: "Bring an existing website, domain, or business email setup to HostMyWeb with a migration plan built around minimizing interruption.", points: ["Website moves", "DNS cutovers", "Email planning"] },
+  { icon: "▦", title: "Web Hosting", price: "From $7.99/mo", text: "Fast hosting for business websites with SSL, backups, email options, DNS tools, and a customer account.", href: "#pricing" },
+  { icon: "W", title: "WordPress Hosting", price: "From $9.99/mo", text: "WordPress-ready hosting with SSL, backups, and a straightforward place to keep service details organized.", href: "#pricing" },
+  { icon: "◎", title: "Domains", price: "From $14.99/yr", text: "Search domains with fair renewal pricing and keep registered domains organized in your HostMyWeb account.", href: "#domains" },
+  { icon: "✉", title: "Business Email", price: "From $2.99/mo", text: "Professional mailbox options for businesses that want email on their own domain.", href: "/signup?product=email" },
+  { icon: "◇", title: "SSL & Security", price: "Free SSL included", text: "HTTPS and SSL options for hosted websites, with clear service status in your account.", href: "/signup?product=hosting" },
+  { icon: "↗", title: "Website Migrations", price: "Assisted moves from $49", text: "Move an existing website with a defined migration service instead of an open-ended support request.", href: "#custom" },
 ] as const;
 
 const plans = [
-  { name: "Starter", subtitle: "One business website", description: "For a local business, creator, or professional launching a dependable web presence.", features: ["1 managed website", "SSL & HTTPS", "Domain connection", "Business email options", "Migration assistance"], cta: "Choose Starter", popular: false },
-  { name: "Business", subtitle: "Growing brands", description: "For businesses that need more resources, more email, and room for a second site or campaign.", features: ["Multiple website support", "More storage & resources", "Business email", "Backup options", "Priority setup assistance"], cta: "Choose Business", popular: true },
-  { name: "Pro", subtitle: "Busy & advanced sites", description: "For established sites that need stronger resource allocation and more hands-on technical support.", features: ["Higher resource allocation", "Multi-site management", "Advanced DNS assistance", "Priority technical support", "Migration planning"], cta: "Choose Pro", popular: false },
-  { name: "Agency", subtitle: "Multiple brands or clients", description: "For operators managing several websites, brands, client properties, or purpose-built solutions.", features: ["Multi-brand hosting", "Centralized management", "White-label-friendly workflows", "Scalable infrastructure", "Migration coordination"], cta: "Talk to sales", popular: false },
+  { name: "Starter", price: "$7.99", unit: "/mo", description: "A simple home for one business website.", features: ["1 website", "SSL included", "5 business mailboxes", "Backups", "Customer account"], href: "/signup?plan=starter", popular: false },
+  { name: "Business", price: "$12.99", unit: "/mo", description: "For growing businesses with multiple sites and email users.", features: ["Up to 5 websites", "SSL included", "25 business mailboxes", "Daily backups", "Customer account"], href: "/signup?plan=business", popular: true },
+  { name: "Pro", price: "$21.99", unit: "/mo", description: "More room for established sites and multiple projects.", features: ["Up to 15 websites", "SSL included", "50 business mailboxes", "Daily backups", "Priority support queue"], href: "/signup?plan=pro", popular: false },
+  { name: "Agency", price: "$39.99", unit: "/mo", description: "For agencies, operators, and multi-brand businesses.", features: ["Up to 30 websites", "Multi-site service organization", "100 business mailboxes", "Daily backups", "Priority support queue"], href: "/signup?plan=agency", popular: false },
+] as const;
+
+const domainPrices = [
+  { tld: ".com", price: "$17.99", note: "registration & renewal" },
+  { tld: ".org", price: "$17.99", note: "registration & renewal" },
+  { tld: ".net", price: "$19.99", note: "registration & renewal" },
+  { tld: ".us", price: "$14.99", note: "registration & renewal" },
 ] as const;
 
 const solutions = [
-  { mark: "B", title: "Breeders", text: "Managed hosting, domains, email, and connected infrastructure for professional breeding businesses." },
-  { mark: "L", title: "Local Businesses", text: "A credible website, branded email, and the infrastructure needed to keep your local presence dependable." },
-  { mark: "S", title: "Online Shops", text: "Hosting and domain infrastructure for product brands and stores that need speed, uptime, and room to grow." },
-  { mark: "P", title: "Service Brands", text: "A polished web presence for consultants, professionals, agencies, and specialized service companies." },
+  { mark: "B", title: "Breeders", text: "Hosting, websites, portals, and connected tools for professional breeding businesses." },
+  { mark: "L", title: "Local Businesses", text: "Web hosting, domains, and business email for a dependable local presence." },
+  { mark: "S", title: "Online Shops", text: "Hosting and domain infrastructure for product brands and growing stores." },
+  { mark: "P", title: "Service Brands", text: "A polished online foundation for professionals, consultants, and service companies." },
 ] as const;
 
-const ecosystem = [
-  { name: "HostMyWeb", type: "Infrastructure", text: "Hosting, domains, email, DNS, SSL, and the infrastructure layer underneath the product family.", href: "https://hostmyweb.co", current: true },
-  { name: "MyDogPortal", type: "Breeder Operating System", text: "Run the breeding program, families, puppies, communications, portals, and business workflow.", href: "https://mydogportal.site", current: false },
-  { name: "DogBreederWeb", type: "Breeder Website Platform", text: "Build and operate purpose-built breeder websites that connect with breeder records and applications.", href: "https://dogbreederweb.site", current: false },
-  { name: "DogBreederDocs", type: "Breeder Document Platform", text: "Create, manage, send, and complete professional breeder paperwork and document packets.", href: "https://dogbreederdocs.online", current: false },
+const specializedProducts = [
+  { name: "MyDogPortal", type: "Breeder Operating System", text: "Manage breeders, puppies, families, portals, communications, and day-to-day operations.", href: "https://mydogportal.site" },
+  { name: "DogBreederWeb", type: "Breeder Website Platform", text: "Build breeder websites that connect applications, customer journeys, and business workflows.", href: "https://dogbreederweb.site" },
+  { name: "DogBreederDocs", type: "Breeder Document Platform", text: "Create, manage, send, and complete professional breeder documents and agreements.", href: "https://dogbreederdocs.online" },
 ] as const;
 
 export default function HomePage() {
   return (
     <main id="top">
-      <div className="utility-bar">
-        <div><span>HostMyWeb</span><b>Managed infrastructure for real businesses</b></div>
-        <div><a href="#support">Support</a><a href="#contact">Sales</a><span className="status-pill">● Systems operational</span></div>
-      </div>
-
-      <header className="site-header">
+      <header className="site-header storefront-header">
         <a className="brand" href="#top" aria-label="HostMyWeb home"><span className="brand-mark"><i /><i /><i /></span><b>HostMyWeb</b></a>
-        <nav aria-label="Primary navigation">
-          <a href="#hosting">Hosting</a>
-          <a href="#domains">Domains</a>
-          <a href="#products">Products</a>
-          <a href="#solutions">Solutions</a>
-          <a href="#ecosystem">Company</a>
-          <a href="#support">Support</a>
-        </nav>
-        <div className="header-actions"><a className="login-link" href="#contact">Log in</a><a className="nav-cta" href="#plans">Get Started</a></div>
+        <nav aria-label="Primary navigation"><a href="#hosting">Hosting</a><a href="#domains">Domains</a><a href="#products">Products</a><a href="#solutions">Solutions</a><a href="#pricing">Pricing</a></nav>
+        <div className="header-actions"><a className="login-link" href="/account">Log In</a><a className="nav-cta" href="/signup">Create Account</a></div>
       </header>
 
-      <section className="hero">
+      <section className="hero storefront-hero">
         <div className="hero-copy">
-          <span className="eyebrow"><i /> Reliable infrastructure. Real support. Built for growth.</span>
-          <h1>Managed Hosting,<br />Domains &amp; Business Email —<br /><em>Built for Real Brands</em></h1>
-          <p>HostMyWeb gives small businesses, creators, online shops, service brands, and specialized companies one organized place for the infrastructure behind their online presence.</p>
-          <div className="hero-actions"><a className="primary-button" href="#plans">See hosting plans <span>→</span></a><a className="secondary-button" href="#products">Explore products</a></div>
-          <div className="proof-row"><span><b>✓</b> Managed setup</span><span><b>✓</b> Migration help</span><span><b>✓</b> Business email</span><span><b>✓</b> Human support</span></div>
+          <span className="eyebrow"><i /> Hosting that is simple to understand and easy to manage.</span>
+          <h1>Web Hosting,<br />Domains &amp; Business Email —<br /><em>Built for Real Brands</em></h1>
+          <p>HostMyWeb gives businesses one account for services, domains, orders, renewals, and support so routine account work stays organized in one place.</p>
+          <div className="hero-actions"><a className="primary-button" href="#pricing">View Hosting Plans <span>→</span></a><a className="secondary-button" href="#domains">Search Domains</a></div>
+          <div className="proof-row"><span><b>✓</b> Customer accounts</span><span><b>✓</b> Live domain search</span><span><b>✓</b> Clear renewal pricing</span><span><b>✓</b> Human help when needed</span></div>
         </div>
 
-        <div className="dashboard-shell" aria-label="HostMyWeb infrastructure dashboard preview">
-          <div className="dashboard-windowbar"><span /><span /><span /><div>portal.hostmyweb.co</div></div>
+        <div className="dashboard-shell" aria-label="HostMyWeb customer dashboard preview">
+          <div className="dashboard-windowbar"><span /><span /><span /><div>account.hostmyweb.co</div></div>
           <div className="dashboard-top"><div className="mini-brand"><span className="mini-mark">H</span><b>HostMyWeb</b></div><div className="account-chip">My Brand Co.⌄</div></div>
           <div className="dashboard-body">
-            <aside><b>Overview</b><span>Hosting</span><span>Domains</span><span>Email</span><span>Websites</span><span>Security</span><span>DNS</span><span>Billing</span><span>Support</span></aside>
+            <aside><b>Overview</b><span>Services</span><span>Domains</span><span>Orders</span><span>Billing</span><span>Support</span></aside>
             <section>
-              <header><div><small>OVERVIEW</small><h2>Everything looks good.</h2></div><span className="online-dot">● Live</span></header>
+              <header><div><small>ACCOUNT OVERVIEW</small><h2>Everything in one place.</h2></div><span className="online-dot">● Secure</span></header>
               <div className="metric-grid">
-                <article><small>DOMAIN</small><b>mybrand.co</b><em>Active</em><span>Renewal protected</span></article>
-                <article><small>WEB HOSTING</small><b>Business Plan</b><em>Active</em><span>Site online</span></article>
-                <article><small>BUSINESS EMAIL</small><b>5 mailboxes</b><em>Healthy</em><span>All systems operational</span></article>
-                <article><small>WEBSITE</small><b>Published</b><em>Online</em><span>Production connected</span></article>
-                <article><small>SSL CERTIFICATE</small><b>Secure</b><em>Active</em><span>HTTPS enabled</span></article>
-                <article><small>DNS</small><b>Connected</b><em>Healthy</em><span>A · MX · CNAME · TXT</span></article>
+                <article><small>DOMAIN</small><b>mybrand.com</b><em>Active</em><span>Renewal tracked</span></article>
+                <article><small>WEB HOSTING</small><b>Business</b><em>Active</em><span>Website service</span></article>
+                <article><small>BUSINESS EMAIL</small><b>5 mailboxes</b><em>Active</em><span>Email service</span></article>
+                <article><small>ORDERS</small><b>3 orders</b><em>Current</em><span>Order history</span></article>
+                <article><small>SUPPORT</small><b>No open issues</b><em>Clear</em><span>Ticket history</span></article>
+                <article><small>ACCOUNT</small><b>Verified</b><em>Secure</em><span>Customer access</span></article>
               </div>
-              <div className="dashboard-lower"><article><b>Resource usage</b><label>Storage <span>38%</span></label><i><span style={{width:"38%"}} /></i><label>Bandwidth <span>42%</span></label><i><span style={{width:"42%"}} /></i></article><article><b>Quick actions</b><span>Add a domain →</span><span>Create email account →</span><span>Manage DNS records →</span><span>Request migration →</span></article></div>
+              <div className="dashboard-lower"><article><b>Account snapshot</b><label>Services <span>3</span></label><i><span style={{width:"65%"}} /></i><label>Domains <span>2</span></label><i><span style={{width:"42%"}} /></i></article><article><b>Quick links</b><span>View services →</span><span>View domains →</span><span>Order history →</span><span>Open support ticket →</span></article></div>
             </section>
           </div>
         </div>
       </section>
 
-      <section className="domain-band" id="domains">
-        <div className="domain-band-copy"><span>YOUR NAME ONLINE</span><h2>Find the domain your business should own.</h2><p>Search first, then build the hosting, email, and website setup around the right name.</p></div>
-        <DomainSearch />
-      </section>
-
-      <section className="trust-strip" aria-label="HostMyWeb service highlights">
-        <span><b>99.9%</b> uptime-minded infrastructure</span><span><b>SSL</b> secure connections</span><span><b>DNS</b> setup assistance</span><span><b>Email</b> on your domain</span><span><b>Moves</b> migration help</span>
+      <section className="domain-band storefront-domain" id="domains">
+        <div className="domain-band-copy"><span>DOMAINS</span><h2>Find the domain your business should own.</h2><p>Search live availability and see straightforward year-to-year pricing before you create your HostMyWeb account.</p></div>
+        <div><DomainSearch /><div className="domain-price-grid">{domainPrices.map((item) => <article key={item.tld}><b>{item.tld}</b><strong>{item.price}<small>/yr</small></strong><span>{item.note}</span></article>)}</div></div>
       </section>
 
       <section className="section products-section" id="products">
-        <header className="section-heading"><span>HOSTMYWEB PRODUCTS</span><h2>Everything you expect from a real web hosting company.</h2><p>Hosting is only one piece. HostMyWeb brings domains, email, security, migrations, DNS, and website infrastructure together under one service brand.</p></header>
-        <div className="product-grid">{products.map((product) => <article key={product.title}><span className="product-icon">{product.icon}</span><small>{product.kicker}</small><h3>{product.title}</h3><p>{product.text}</p><ul>{product.points.map(point => <li key={point}>✓ {point}</li>)}</ul><a href="#contact">Learn more <span>→</span></a></article>)}</div>
+        <header className="section-heading centered"><span>HOSTMYWEB PRODUCTS</span><h2>Everything you expect from a real hosting company.</h2><p>Choose the service you need, create an account, and keep your HostMyWeb services together.</p></header>
+        <div className="product-grid storefront-product-grid">{products.map((product) => <article key={product.title}><span className="product-icon">{product.icon}</span><small>{product.price}</small><h3>{product.title}</h3><p>{product.text}</p><a href={product.href}>View product <span>→</span></a></article>)}</div>
       </section>
 
-      <section className="hosting-section" id="hosting">
-        <div className="hosting-copy"><span>MANAGED WEB HOSTING</span><h2>Hosting that feels managed — because it is.</h2><p>You should not have to become a server administrator just to keep your company online. HostMyWeb is designed around an organized service relationship: your website, domain, SSL, DNS, email, migrations, and support all have a clear home.</p><div className="hosting-checks"><span>✓ Setup assistance</span><span>✓ Domain connection</span><span>✓ SSL &amp; HTTPS</span><span>✓ Business email options</span><span>✓ Migration planning</span><span>✓ Human support</span></div><a className="primary-button" href="#plans">Compare plans →</a></div>
-        <div className="hosting-console"><div className="console-head"><div><b>mybrand.co</b><span>Production website</span></div><em>● Online</em></div><div className="console-stats"><article><span>Uptime</span><b>99.99%</b><i><span style={{width:"99%"}} /></i></article><article><span>SSL</span><b>Secure</b><i><span style={{width:"100%"}} /></i></article><article><span>Backups</span><b>Current</b><i><span style={{width:"92%"}} /></i></article></div><div className="console-list"><span><i>✓</i> DNS records connected</span><span><i>✓</i> HTTPS certificate active</span><span><i>✓</i> Email routing healthy</span><span><i>✓</i> Latest backup completed</span></div></div>
+      <section className="hosting-section storefront-account-section" id="hosting">
+        <div className="hosting-copy"><span>YOUR HOSTMYWEB ACCOUNT</span><h2>A customer account first. Support when you actually need it.</h2><p>Your account keeps services, domains, orders, renewals, and support together so routine account work does not have to begin with a support request.</p><div className="hosting-checks"><span>✓ View services</span><span>✓ Track domains</span><span>✓ View orders</span><span>✓ Keep ticket history</span><span>✓ Add services</span><span>✓ Structured support</span></div><a className="primary-button" href="/signup">Create your account →</a></div>
+        <div className="hosting-console"><div className="console-head"><div><b>Your account</b><span>One place for the services you use</span></div><em>● Secure</em></div><div className="account-feature-list"><article><b>Hosting</b><span>Plans and service status</span></article><article><b>Domains</b><span>Domain status and renewals</span></article><article><b>Email</b><span>Business email services</span></article><article><b>Orders</b><span>Order and payment history</span></article><article><b>Support</b><span>Structured tickets and history</span></article><article><b>Account</b><span>Secure customer access</span></article></div></div>
       </section>
 
-      <section className="section plans-section" id="plans">
-        <header className="section-heading centered"><span>WEB HOSTING PLANS</span><h2>Choose the level that fits the business.</h2><p>Plan names and product structure are ready now. Retail pricing can be finalized against the production hosting platform so the published rates are sustainable and accurate.</p></header>
-        <div className="plan-grid">{plans.map((plan) => <article className={plan.popular ? "featured-plan" : ""} key={plan.name}>{plan.popular && <em>MOST POPULAR</em>}<small>{plan.subtitle}</small><h3>{plan.name}</h3><p>{plan.description}</p><div className="price-placeholder"><span>Launch pricing</span><b>Finalizing</b><small>based on production resources</small></div><ul>{plan.features.map(item => <li key={item}>✓ {item}</li>)}</ul><a href="#contact">{plan.cta}</a></article>)}</div>
-        <p className="plan-footnote">Need WordPress, several domains, a larger migration, or a multi-brand setup? We can build the plan around the actual environment instead of forcing the business into the wrong package.</p>
+      <section className="section plans-section" id="pricing">
+        <header className="section-heading centered"><span>WEB HOSTING</span><h2>Simple plans with straightforward monthly pricing.</h2><p>SSL is included. Upgrade when your business needs more sites, mailboxes, or support capacity.</p></header>
+        <div className="plan-grid">{plans.map((plan) => <article className={plan.popular ? "featured-plan" : ""} key={plan.name}>{plan.popular && <em>MOST POPULAR</em>}<h3>{plan.name}</h3><div className="live-price"><b>{plan.price}</b><span>{plan.unit}</span></div><p>{plan.description}</p><ul>{plan.features.map(item => <li key={item}>✓ {item}</li>)}</ul><a href={plan.href}>Choose {plan.name}</a></article>)}</div>
+        <div className="pricing-note"><b>No teaser domain pricing.</b><span>Common domain extensions are priced to stay reasonable at registration and renewal instead of jumping sharply in year two.</span></div>
       </section>
 
       <section className="section solutions-section" id="solutions">
-        <header className="section-heading centered"><span>SOLUTIONS FOR GROWING BRANDS</span><h2>Built for more than one niche.</h2><p>The infrastructure should adapt to the business — not force every customer into the same generic website package.</p></header>
-        <div className="audience-grid">{solutions.map((solution, index) => <article key={solution.title}><div className={`audience-visual visual-${index+1}`}><span>{solution.mark}</span><div className="visual-lines"><i /><i /><i /></div></div><small>HOSTMYWEB SOLUTION</small><h3>{solution.title}</h3><p>{solution.text}</p><a href="#contact">Explore solution →</a></article>)}</div>
+        <header className="section-heading centered"><span>SOLUTIONS FOR GROWING BRANDS</span><h2>Built for more than one niche.</h2><p>Use HostMyWeb for an ordinary business website or explore a purpose-built platform designed around a specialized workflow.</p></header>
+        <div className="audience-grid">{solutions.map((solution, index) => <article key={solution.title}><div className={`audience-visual visual-${index+1}`}><span>{solution.mark}</span><div className="visual-lines"><i /><i /><i /></div></div><small>HOSTMYWEB SOLUTION</small><h3>{solution.title}</h3><p>{solution.text}</p><a href="/signup">Get started →</a></article>)}</div>
       </section>
 
       <section className="ecosystem section" id="ecosystem">
-        <header className="section-heading centered"><span>PART OF THE HOSTMYWEB FAMILY</span><h2>Powering purpose-built solutions.</h2><p>HostMyWeb is a complete hosting brand on its own, and it can also provide the web infrastructure underneath focused products that solve very specific business problems.</p></header>
-        <div className="ecosystem-grid">{ecosystem.map((product) => <a className={product.current ? "ecosystem-card current" : "ecosystem-card"} href={product.href} key={product.name} target={product.current ? undefined : "_blank"} rel={product.current ? undefined : "noreferrer"}><span className="ecosystem-logo">{product.name.slice(0,1)}</span><small>{product.type}</small><h3>{product.name}</h3><p>{product.text}</p><b>{product.current ? "You are here" : "Visit product →"}</b></a>)}</div>
-        <div className="ecosystem-note"><b>Different tools. One thoughtful ecosystem.</b><p>Each product has one clear job. HostMyWeb provides the infrastructure layer without limiting the hosting company to one industry.</p></div>
+        <header className="section-heading centered"><span>SPECIALIZED PLATFORMS</span><h2>Powering purpose-built solutions.</h2><p>Explore focused software products built for businesses with specialized workflows.</p></header>
+        <div className="ecosystem-grid specialized-grid">{specializedProducts.map((product) => <a className="ecosystem-card" href={product.href} key={product.name} target="_blank" rel="noreferrer"><span className="ecosystem-logo">{product.name.slice(0,1)}</span><small>{product.type}</small><h3>{product.name}</h3><p>{product.text}</p><b>Visit product →</b></a>)}</div>
       </section>
 
-      <section className="support-section" id="support">
-        <div><span>SUPPORT THAT SPEAKS HUMAN</span><h2>Domains, DNS, email, hosting and migrations can get technical. You should still get a clear answer.</h2></div>
-        <div className="support-cards"><article><b>Migration help</b><p>Planning for websites, DNS, email, and cutover timing.</p></article><article><b>Domain &amp; DNS help</b><p>Assistance connecting records and getting services pointed where they belong.</p></article><article><b>Hosting support</b><p>Help understanding the environment instead of being handed a generic control-panel article.</p></article></div>
+      <section className="support-section storefront-support" id="support">
+        <div><span>SUPPORT WITHOUT THE RUNAROUND</span><h2>Keep common account work organized. Send a ticket when something actually needs a person.</h2></div>
+        <div className="support-cards"><article><b>Account tools</b><p>See services, domains, orders, and account details without starting a support request.</p></article><article><b>Structured support</b><p>Choose a category for hosting, domains, DNS, email, billing, migrations, or account help.</p></article><article><b>Ticket history</b><p>Keep support requests and their status organized inside your customer account.</p></article></div>
       </section>
 
-      <section className="section contact-section" id="contact">
-        <div className="contact-copy"><span className="eyebrow"><i /> LET’S BUILD THE RIGHT SETUP</span><h2>Tell us what needs to be hosted, moved, connected, or cleaned up.</h2><p>Whether you need one website, a portfolio of brands, a new domain, business email, or a migration away from a provider you have outgrown, start with the actual situation. We’ll organize the infrastructure around it.</p><div className="contact-points"><span>✓ Websites &amp; migrations</span><span>✓ Domains &amp; DNS</span><span>✓ Business email</span><span>✓ Multi-site &amp; agency needs</span></div></div>
+      <section className="section contact-section storefront-custom" id="custom">
+        <div className="contact-copy"><span className="eyebrow"><i /> CUSTOM &amp; COMPLEX WORK</span><h2>Need a migration, multi-site setup, or something outside the standard plans?</h2><p>Use this form for work that genuinely needs a custom setup or human review.</p><div className="contact-points"><span>✓ Complex migrations</span><span>✓ Multi-site moves</span><span>✓ Custom infrastructure</span><span>✓ Business email migrations</span></div></div>
         <ContactForm />
       </section>
 
-      <footer className="site-footer">
-        <div className="footer-brand"><a className="brand" href="#top"><span className="brand-mark"><i /><i /><i /></span><b>HostMyWeb</b></a><p>Reliable infrastructure. Real support. Hosting, domains, email, security, and migrations for brands that want their online presence handled thoughtfully.</p><span className="footer-status">● Systems operational</span></div>
-        <div><b>Products</b><a href="#hosting">Web Hosting</a><a href="#products">Managed WordPress</a><a href="#domains">Domains &amp; DNS</a><a href="#products">Business Email</a><a href="#products">SSL &amp; Security</a></div>
-        <div><b>Solutions</b><a href="#solutions">Breeders</a><a href="#solutions">Local Businesses</a><a href="#solutions">Online Shops</a><a href="#solutions">Service Brands</a><a href="#plans">Agencies</a></div>
-        <div><b>Company</b><a href="#ecosystem">Our ecosystem</a><a href="#support">Support</a><a href="#plans">Plans</a><a href="#contact">Contact sales</a></div>
-        <div><b>Get started</b><p>Have a site, domain, email setup, or migration you need help with?</p><a className="footer-cta" href="#contact">Start your setup →</a></div>
+      <footer className="site-footer storefront-footer">
+        <div className="footer-brand"><a className="brand" href="#top"><span className="brand-mark"><i /><i /><i /></span><b>HostMyWeb</b></a><p>Web hosting, domains, business email, and connected infrastructure for real businesses.</p></div>
+        <div><b>Products</b><a href="#pricing">Web Hosting</a><a href="#products">WordPress Hosting</a><a href="#domains">Domains</a><a href="#products">Business Email</a><a href="#products">SSL &amp; Security</a></div>
+        <div><b>Account</b><a href="/account">Log In</a><a href="/signup">Create Account</a><a href="/account">Services</a><a href="/account">Domains</a><a href="/account">Support Tickets</a></div>
+        <div><b>Solutions</b><a href="#solutions">Local Businesses</a><a href="#solutions">Online Shops</a><a href="#solutions">Service Brands</a><a href="#ecosystem">Specialized Platforms</a></div>
+        <div><b>Support</b><a href="#support">Support</a><a href="#custom">Migrations</a><a href="#custom">Custom Setup</a><a href="#domains">Domain Search</a></div>
         <small>© 2026 HostMyWeb.co. All rights reserved.</small>
       </footer>
     </main>
