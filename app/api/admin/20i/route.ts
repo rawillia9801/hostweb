@@ -46,6 +46,13 @@ function twentyIBearer() {
   return Buffer.from(apiKey, "utf8").toString("base64");
 }
 
+class TwentyIRequestError extends Error {
+  constructor(public path: string, public status: number, detail?: string) {
+    super(`20i ${path} failed with status ${status}${detail ? `: ${detail}` : "."}`);
+    this.name = "TwentyIRequestError";
+  }
+}
+
 async function twentyI(path: string, init?: RequestInit) {
   const response = await fetch(`https://api.20i.com${path}`, {
     ...init,
@@ -59,7 +66,12 @@ async function twentyI(path: string, init?: RequestInit) {
     signal: AbortSignal.timeout(12000),
   });
 
-  if (!response.ok) throw new Error(`20i request failed with status ${response.status}.`);
+  if (!response.ok) {
+    const raw = await response.text().catch(() => "");
+    const detail = raw.replace(/\s+/g, " ").trim().slice(0, 180);
+    throw new TwentyIRequestError(path, response.status, detail || undefined);
+  }
+
   return response.json() as Promise<unknown>;
 }
 
@@ -79,13 +91,13 @@ function packageTypesFrom(payload: unknown): PackageTypeSummary[] {
     const record = asRecord(current.value);
     if (!record) continue;
 
-    const directId = ["id", "ref", "type", "packageTypeId", "package_type_id", "webTypeRef"]
+    const directId = ["id", "ref", "type", "typeRef", "packageTypeId", "package_type_id", "webTypeRef"]
       .map((key) => record[key])
       .find((value) => typeof value === "string" || typeof value === "number");
     const fallbackId = current.key && /^\d+$/.test(current.key) ? current.key : undefined;
     const id = String(directId ?? fallbackId ?? "");
 
-    const nameValue = ["name", "label", "title", "displayName", "display_name"]
+    const nameValue = ["name", "packageTypeName", "label", "title", "displayName", "display_name"]
       .map((key) => record[key])
       .find((value) => typeof value === "string") as string | undefined;
     const platformValue = ["platform", "platformName", "platform_name", "family", "serviceType"]
@@ -150,24 +162,63 @@ function countStackUsers(payload: unknown) {
   return contacts ? Object.keys(contacts).length : null;
 }
 
+function countStackUsersFromPackages(payload: unknown) {
+  const users = new Set<string>();
+  const queue: unknown[] = [payload];
+  while (queue.length) {
+    const value = queue.shift();
+    if (Array.isArray(value)) {
+      value.forEach((entry) => queue.push(entry));
+      continue;
+    }
+    const record = asRecord(value);
+    if (!record) continue;
+    if (Array.isArray(record.stackUsers)) {
+      for (const entry of record.stackUsers) if (typeof entry === "string") users.add(entry);
+    }
+    for (const nested of Object.values(record)) if (nested && typeof nested === "object") queue.push(nested);
+  }
+  return users.size;
+}
+
 export async function GET(request: NextRequest) {
   const user = await requireAdmin(request);
   if (!user) return NextResponse.json({ error: "Administrator access required." }, { status: 403 });
 
   try {
-    const [typesPayload, packagesPayload, stackUsersPayload] = await Promise.all([
-      twentyI("/packageTypes"),
-      twentyI("/package"),
-      twentyI("/reseller/*/susers").catch(() => null),
-    ]);
+    // /package is the documented package-list endpoint and is the source of truth
+    // for connectivity and the HostMyWeb brand-domain reference.
+    const packagesPayload = await twentyI("/package");
+    const warnings: string[] = [];
+
+    let typesPayload: unknown = null;
+    try {
+      typesPayload = await twentyI("/packageTypes");
+    } catch (error) {
+      warnings.push(error instanceof Error ? error.message : "20i package-type lookup is unavailable.");
+    }
+
+    let stackUsersPayload: unknown = null;
+    try {
+      stackUsersPayload = await twentyI("/reseller/*/susers");
+    } catch (error) {
+      warnings.push(error instanceof Error ? error.message : "20i StackCP-user lookup is unavailable.");
+    }
+
+    const explicitTypes = typesPayload ? packageTypesFrom(typesPayload) : [];
+    const inferredTypes = packageTypesFrom(packagesPayload);
+    const stackUserCount = stackUsersPayload
+      ? countStackUsers(stackUsersPayload)
+      : countStackUsersFromPackages(packagesPayload);
 
     return NextResponse.json({
       connected: true,
       brandDomain: BRAND_DOMAIN,
       brandReferenceExists: containsDomain(packagesPayload, BRAND_DOMAIN),
-      packageTypes: packageTypesFrom(typesPayload),
+      packageTypes: explicitTypes.length ? explicitTypes : inferredTypes,
       packageCount: countPackages(packagesPayload),
-      stackUserCount: stackUsersPayload ? countStackUsers(stackUsersPayload) : null,
+      stackUserCount,
+      warnings,
     }, { headers: { "cache-control": "no-store" } });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Unable to read the 20i account." }, { status: 502 });
@@ -182,15 +233,22 @@ export async function POST(request: NextRequest) {
   if (body?.action !== "ensure_brand_reference") return NextResponse.json({ error: "Unsupported setup action." }, { status: 400 });
 
   try {
-    const typesPayload = await twentyI("/packageTypes");
-    const types = packageTypesFrom(typesPayload);
-    const chosenType = types.find((type) => type.id === String(body.packageTypeId || ""));
-    if (!chosenType) return NextResponse.json({ error: "Choose one of the package types returned by your 20i account." }, { status: 400 });
-
+    // Check the documented package list first. If the reference already exists,
+    // we do not need packageTypes at all.
     const packagesPayload = await twentyI("/package");
     if (containsDomain(packagesPayload, BRAND_DOMAIN)) {
       return NextResponse.json({ ok: true, alreadyExists: true, message: `${BRAND_DOMAIN} already exists in your 20i hosting account.` });
     }
+
+    let types: PackageTypeSummary[] = [];
+    try {
+      types = packageTypesFrom(await twentyI("/packageTypes"));
+    } catch {
+      types = packageTypesFrom(packagesPayload);
+    }
+
+    const chosenType = types.find((type) => type.id === String(body.packageTypeId || ""));
+    if (!chosenType) return NextResponse.json({ error: "Choose one of the package types returned by your 20i account." }, { status: 400 });
 
     const result = await twentyI("/reseller/*/addWeb", {
       method: "POST",
