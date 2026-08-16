@@ -30,14 +30,50 @@ const solutions = [
   { mark: "O", title: "Online Stores", text: "Hosting and domain infrastructure for commerce sites and product businesses." },
   { mark: "C", title: "Creators", text: "Websites, domains, and email for creators who want a professional home online." },
   { mark: "A", title: "Agencies", text: "Multi-site hosting and account organization for teams managing client work." },
-  { mark: "B", title: "Breeders", text: "Hosting plus a connected software ecosystem built around breeder operations." },
+  { mark: "B", title: "Vertical Software", text: "A shared service layer that can sit quietly underneath purpose-built business platforms." },
 ] as const;
 
 const ecosystemProducts = [
-  { name: "HostMyWeb", type: "Infrastructure Foundation", text: "Hosting, domains, email, account services, and the infrastructure layer underneath the connected product family.", href: "#top", foundation: true, mark: "H" },
-  { name: "MyDogPortal", type: "Breeder Operating System", text: "Operations, applications, buyers, litters, puppies, portals, communications, and breeder workflows.", href: "https://mydogportal.site", foundation: false, mark: "M" },
-  { name: "DogBreederWeb", type: "Breeder Website Platform", text: "Breeder websites, BreederWeb Designer, custom domains, publishing, and connected breeder records.", href: "https://dogbreederweb.site", foundation: false, mark: "W" },
-  { name: "DogBreederDocs", type: "Breeder Document Platform", text: "Reusable breeder documents, agreements, editing, sending, and e-signature workflows.", href: "https://dogbreederdocs.online", foundation: false, mark: "D" },
+  {
+    name: "HostMyWeb",
+    type: "Shared Service Layer",
+    text: "Hosting, domains, DNS, email, provisioning, account services, billing support, and the reusable service layer underneath connected products.",
+    href: "#top",
+    foundation: true,
+    spotlight: false,
+    mark: "H",
+    action: "Shared foundation",
+  },
+  {
+    name: "DogBreederOS",
+    type: "Flagship Vertical Platform",
+    text: "The operating system for running a modern dog breeding program—dogs, breeding, litters, buyers, applications, documents, websites, voice, payments, and portals.",
+    href: "https://dogbreederos.com",
+    foundation: false,
+    spotlight: true,
+    mark: "OS",
+    action: "Explore DogBreederOS →",
+  },
+  {
+    name: "DogBreederWeb",
+    type: "Connected Website Capability",
+    text: "Breeder websites, guided site creation, custom domains, publishing, and connected breeder records—available as part of the breeder ecosystem or on its own.",
+    href: "https://dogbreederweb.site",
+    foundation: false,
+    spotlight: false,
+    mark: "W",
+    action: "Explore DogBreederWeb →",
+  },
+  {
+    name: "DogBreederDocs",
+    type: "Connected Document Capability",
+    text: "Reusable breeder documents, agreements, editing, sending, and e-signature workflows—connected to the same broader breeder operating model.",
+    href: "https://dogbreederdocs.online",
+    foundation: false,
+    spotlight: false,
+    mark: "D",
+    action: "Explore DogBreederDocs →",
+  },
 ] as const;
 
 export default function HomePage() {
@@ -65,7 +101,7 @@ export default function HomePage() {
         <div className="hero-copy architectural-copy">
           <span className="architecture-kicker">HOST MY WEB</span>
           <h1>Straightforward Pricing.<br /><em>No Gimmicks.</em></h1>
-          <p>Reliable hosting, fair domain pricing, business email, and connected software—without teaser rates, hidden catches, or confusing plans.</p>
+          <p>Reliable hosting, fair domain pricing, business email, and a shared service layer for connected products—without teaser rates, hidden catches, or confusing plans.</p>
           <div className="hero-actions">
             <a className="primary-button" href="#pricing">View Pricing <span>→</span></a>
             <a className="secondary-button" href="#domains">Search Domains</a>
@@ -79,20 +115,20 @@ export default function HomePage() {
           </div>
           <div className="proof-row architectural-proof">
             <span><b>✓</b> Transparent renewals</span>
-            <span><b>✓</b> Secure infrastructure</span>
+            <span><b>✓</b> Shared service layer</span>
             <span><b>✓</b> Customer self-service</span>
             <span><b>✓</b> Human support when needed</span>
           </div>
         </div>
 
-        <div className="architecture-visual" aria-label="HostMyWeb infrastructure architecture">
+        <div className="architecture-visual" aria-label="HostMyWeb service architecture">
           <div className="architecture-glow" />
           <div className="architecture-grid-lines" />
           <div className="architecture-core">
             <span className="brand-mark architecture-mark"><i /><i /><i /></span>
-            <small>INFRASTRUCTURE LAYER</small>
+            <small>SHARED SERVICE LAYER</small>
             <strong>HostMyWeb</strong>
-            <p>One foundation for the services and software your business uses.</p>
+            <p>Hosting, domains, email, provisioning, account, and support services in one foundation.</p>
           </div>
           <div className="architecture-node node-hosting"><span>▦</span><div><b>Web Hosting</b><small>Fast, secure hosting</small></div></div>
           <div className="architecture-node node-domains"><span>◎</span><div><b>Domains</b><small>Registration & DNS</small></div></div>
@@ -134,13 +170,13 @@ export default function HomePage() {
       <section className="ecosystem-architecture" id="ecosystem">
         <div className="ecosystem-heading">
           <span>CONNECTED ECOSYSTEM</span>
-          <h2>One infrastructure layer.<br />Multiple purpose-built solutions.</h2>
-          <p>HostMyWeb is a complete hosting company on its own—and the infrastructure foundation behind specialized software built for specific workflows.</p>
+          <h2>Shared infrastructure underneath.<br />Purpose-built software on top.</h2>
+          <p>HostMyWeb handles the reusable service layer. DogBreederOS is the flagship vertical platform that turns those capabilities into a complete operating environment for dog breeders, with focused products available where they make sense.</p>
         </div>
         <div className="ecosystem-flow">
-          {ecosystemProducts.map((product, index) => (
+          {ecosystemProducts.map((product) => (
             <a
-              className={`ecosystem-node-card ${product.foundation ? "foundation" : ""}`}
+              className={`ecosystem-node-card ${product.foundation ? "foundation" : ""} ${product.spotlight ? "spotlight" : ""}`}
               href={product.href}
               key={product.name}
               target={product.foundation ? undefined : "_blank"}
@@ -150,8 +186,7 @@ export default function HomePage() {
               <small>{product.type}</small>
               <h3>{product.name}</h3>
               <p>{product.text}</p>
-              <b>{product.foundation ? "You are here" : "Explore product →"}</b>
-              {index < ecosystemProducts.length - 1 && <i className="ecosystem-connector" aria-hidden="true" />}
+              <b>{product.action}</b>
             </a>
           ))}
         </div>
@@ -177,7 +212,7 @@ export default function HomePage() {
         </div>
         <div className="pricing-note">
           <b>No teaser pricing.</b>
-          <span>No inflated domain renewal surprise. No reason to upgrade the underlying infrastructure until customer usage requires it.</span>
+          <span>No inflated domain renewal surprise. Upgrade when your actual service needs call for it—not because an introductory rate expired.</span>
         </div>
       </section>
 
@@ -203,8 +238,8 @@ export default function HomePage() {
       <section className="ai-builder-spotlight" id="ai-builder">
         <div className="ai-builder-copy">
           <span>AI WEBSITE BUILDER</span>
-          <h2>Start with what your business needs. Refine from there.</h2>
-          <p>Describe your business, shape the structure, refine the content, connect your domain, and publish when the site is ready.</p>
+          <h2>Start with structure. Refine the experience from there.</h2>
+          <p>Describe the business, shape the page structure, organize the services and contact journey, refine the content, connect the domain, and publish when the site is ready.</p>
           <div className="ai-builder-steps">
             <span><b>1</b> Describe</span>
             <span><b>2</b> Structure</span>
@@ -217,14 +252,14 @@ export default function HomePage() {
           <div className="ai-panel-head"><b>AI Website Builder</b><span>Connected to HostMyWeb</span></div>
           <div className="ai-prompt">
             <small>DESCRIBE THE SITE</small>
-            <p>“Create a clean website for a local accounting firm with services, team, resources, and a consultation request.”</p>
+            <p>“Create a clean website for a local accounting firm with services, team, resources, location details, and a consultation request.”</p>
             <button type="button">Generate structure ✦</button>
           </div>
           <div className="ai-output-grid">
             <article><span>01</span><b>Home</b><small>Clear value proposition</small></article>
             <article><span>02</span><b>Services</b><small>Structured service pages</small></article>
-            <article><span>03</span><b>About</b><small>Team and trust signals</small></article>
-            <article><span>04</span><b>Contact</b><small>Conversion-ready form</small></article>
+            <article><span>03</span><b>Business Info</b><small>Team and local details</small></article>
+            <article><span>04</span><b>Contact</b><small>Conversion-ready route</small></article>
           </div>
         </div>
       </section>
@@ -257,7 +292,7 @@ export default function HomePage() {
         <header className="section-heading">
           <span>WHO HOSTMYWEB SERVES</span>
           <h2>Built for businesses that want less friction.</h2>
-          <p>Use the core hosting company as-is, or move into a purpose-built product when your workflow needs something more specialized.</p>
+          <p>Use HostMyWeb directly for hosting and related services, or let it operate quietly underneath a purpose-built platform when the workflow needs something more specialized.</p>
         </header>
         <div className="solution-chip-grid">
           {solutions.map((solution) => (
@@ -294,13 +329,13 @@ export default function HomePage() {
       <footer className="site-footer storefront-footer architectural-footer">
         <div className="footer-brand">
           <a className="brand" href="#top"><span className="brand-mark"><i /><i /><i /></span><b>HostMyWeb</b></a>
-          <p>Straightforward hosting, domains, email, and connected infrastructure.</p>
+          <p>Straightforward hosting, domains, email, and the shared service layer behind connected products.</p>
         </div>
         <div><b>Products</b><a href="#pricing">Web Hosting</a><a href="#domains">Domains &amp; DNS</a><a href="#products">Business Email</a><a href="#ai-builder">AI Website Builder</a><a href="#products">Managed WordPress</a></div>
-        <div><b>Ecosystem</b><a href="https://mydogportal.site" target="_blank" rel="noreferrer">MyDogPortal</a><a href="https://dogbreederweb.site" target="_blank" rel="noreferrer">DogBreederWeb</a><a href="https://dogbreederdocs.online" target="_blank" rel="noreferrer">DogBreederDocs</a><a href="#ecosystem">Architecture</a></div>
+        <div><b>Ecosystem</b><a href="https://dogbreederos.com" target="_blank" rel="noreferrer">DogBreederOS</a><a href="https://dogbreederweb.site" target="_blank" rel="noreferrer">DogBreederWeb</a><a href="https://dogbreederdocs.online" target="_blank" rel="noreferrer">DogBreederDocs</a><a href="#ecosystem">Architecture</a></div>
         <div><b>Account</b><a href="/account">Log In</a><a href="/signup">Create Account</a><a href="/account">Services</a><a href="/account">Domains</a><a href="/account">Support Tickets</a></div>
         <div><b>Support</b><a href="#support">Support</a><a href="#custom">Migrations</a><a href="#custom">Custom Setup</a><a href="#domains">Domain Search</a></div>
-        <small>© 2026 HostMyWeb.co. All rights reserved.</small>
+        <small>© {new Date().getFullYear()} HostMyWeb.co. All rights reserved.</small>
       </footer>
     </main>
   );

@@ -6,13 +6,16 @@ import "./architectural.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://hostmyweb.co"),
   title: {
-    default: "HostMyWeb | Straightforward Hosting, Domains & Email",
+    default: "HostMyWeb | Hosting, Domains, Email & Shared Business Infrastructure",
     template: "%s | HostMyWeb",
   },
-  description: "Straightforward web hosting, fair domain pricing, business email, AI-assisted website building, and connected infrastructure without teaser pricing or renewal gimmicks.",
+  description: "Straightforward web hosting, fair domain pricing, business email, AI-assisted website building, and a shared service layer for connected business software—without teaser pricing or renewal gimmicks.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
-    title: "HostMyWeb | Straightforward Pricing. No Gimmicks.",
-    description: "Web hosting, domains, business email, and connected infrastructure with clear pricing and fair renewals.",
+    title: "HostMyWeb | Straightforward Hosting & Shared Business Infrastructure",
+    description: "Hosting, domains, business email, site creation, and the shared service layer behind connected products—with clear pricing and fair renewals.",
     url: "https://hostmyweb.co",
     siteName: "HostMyWeb",
     type: "website",
