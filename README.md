@@ -13,4 +13,8 @@ The public setup/contact form writes to `public.hostmyweb_leads` in the connecte
 
 ## Product positioning
 
-HostMyWeb is the broad infrastructure brand for managed hosting, domains, business email, DNS, SSL, migrations, and website operations. It is not limited to the dog-breeding market. It also powers purpose-built sibling products including MyDogPortal, DogBreederWeb, and DogBreederDocs.
+HostMyWeb is a general-purpose shared web hosting brand for hosting, domains, business email, DNS, SSL, security tooling, backups, migrations, website operations, and connected services. It is not limited to the dog-breeding market.
+
+The core pricing promise is the **HostMyWeb Price Lock**: the advertised base hosting rate is the ongoing base rate while the customer continuously keeps the same plan active. HostMyWeb does not use teaser hosting rates that automatically increase at renewal or require a multi-year commitment to obtain the advertised monthly price. Taxes, government-mandated fees, domains, optional add-ons, usage-based charges, and customer-requested plan changes are separate.
+
+HostMyWeb can also provide the reusable hosting and service layer underneath purpose-built sibling products including DogBreederOS, DogBreederWeb, and DogBreederDocs.
