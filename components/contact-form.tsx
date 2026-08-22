@@ -5,6 +5,36 @@ import { SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL } from "@/lib/supabase-public";
 
 type Status = "idle" | "sending" | "success" | "error";
 
+const interestMap: Record<string, string> = {
+  shared_hosting: "hosting",
+  managed_cloud: "hosting",
+  vps: "hosting",
+  domains: "domains",
+  email: "email",
+  wordpress: "hosting",
+  websites: "websites",
+  migration: "migration",
+  agency: "agency",
+  custom: "hosting",
+  breeder: "breeder",
+  general: "general",
+};
+
+const requestLabels: Record<string, string> = {
+  shared_hosting: "Shared web hosting",
+  managed_cloud: "Managed cloud hosting",
+  vps: "Virtual private server (VPS)",
+  domains: "Domains & DNS",
+  email: "Business email",
+  wordpress: "Managed WordPress",
+  websites: "Website builder / publishing",
+  migration: "Website migration",
+  agency: "Agency / multi-site hosting",
+  custom: "Custom infrastructure",
+  breeder: "Breeder business infrastructure",
+  general: "Help me choose",
+};
+
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
@@ -16,12 +46,14 @@ export function ContactForm() {
     setStatus("sending");
     setMessage("");
 
+    const requestType = String(data.get("request_type") || "general");
+    const details = String(data.get("message") || "").trim();
     const payload = {
       full_name: String(data.get("full_name") || "").trim(),
       email: String(data.get("email") || "").trim(),
       company: String(data.get("company") || "").trim() || null,
-      interest: String(data.get("interest") || "general"),
-      message: String(data.get("message") || "").trim() || null,
+      interest: interestMap[requestType] || "general",
+      message: `Request type: ${requestLabels[requestType] || requestType}${details ? `\n\n${details}` : ""}`,
       source: "hostmyweb.co",
     };
 
@@ -66,7 +98,7 @@ export function ContactForm() {
         </label>
         <label>
           <span>What do you need?</span>
-          <select name="interest" defaultValue="general">
+          <select name="request_type" defaultValue="general">
             <option value="general">Help me choose</option>
             <option value="shared_hosting">Shared web hosting</option>
             <option value="managed_cloud">Managed cloud hosting</option>
