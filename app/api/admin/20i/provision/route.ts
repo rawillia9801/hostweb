@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireHostMyWebAdmin } from "@/lib/hostmyweb-admin";
 import { HOSTING_PLANS, inferHostingPlanSlug, isHostingPlanSlug } from "@/lib/hosting-plans";
 import { supabaseRpc } from "@/lib/supabase-rpc";
-import { provisionTwentyIHosting } from "@/lib/twentyi-server";
+import { provisionConfiguredTwentyIHosting } from "@/lib/twentyi-plan-automation";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const provisioned = await provisionTwentyIHosting({ plan, domain, stackUser });
+    const provisioned = await provisionConfiguredTwentyIHosting({ plan, domain, stackUser });
     const existingPlan = inferHostingPlanSlug(provisioned.packageTypeName, provisioned.packageTypeRef);
     if (!provisioned.created && existingPlan && existingPlan !== plan) {
       return NextResponse.json({
