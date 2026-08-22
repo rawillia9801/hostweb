@@ -23,6 +23,12 @@ function normalizeSession(payload: Session): Session {
   };
 }
 
+function ticketCategory(issueType: string) {
+  if (issueType === "dns_failure") return "dns";
+  if (issueType === "email_outage") return "email";
+  return "hosting";
+}
+
 async function currentSession(): Promise<Session | null> {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -66,7 +72,7 @@ export function UrgentSupportForm() {
     const form = event.currentTarget;
     const data = new FormData(form);
     const affected = String(data.get("affected_service") || "").trim();
-    const issueType = String(data.get("issue_type") || "outage");
+    const issueType = String(data.get("issue_type") || "website_down");
     const summary = String(data.get("summary") || "").trim();
     const details = String(data.get("details") || "").trim();
     setState("sending");
@@ -83,7 +89,7 @@ export function UrgentSupportForm() {
         },
         body: JSON.stringify({
           user_id: session.user.id,
-          category: "urgent_technical",
+          category: ticketCategory(issueType),
           subject: `[URGENT] ${summary}`,
           message: `Affected service/domain: ${affected}\nIssue type: ${issueType}\n\n${details}`,
           priority: "urgent",
