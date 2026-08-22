@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseRpc } from "@/lib/supabase-rpc";
+import { applyConfiguredPlanBindings } from "@/lib/twentyi-plan-automation";
 import { readTwentyIInventory } from "@/lib/twentyi-server";
 
 export const dynamic = "force-dynamic";
@@ -84,7 +85,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const inventory = await readTwentyIInventory();
+    const inventory = await applyConfiguredPlanBindings(await readTwentyIInventory());
     const synced = await supabaseRpc<{ synced: number }>("sync_hostmyweb_twentyi_inventory", {
       p_secret: secret,
       p_packages: inventory,
