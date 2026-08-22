@@ -1,5 +1,5 @@
-import { HostMyWebHome } from "@/components/hostmyweb-home";
+import { HostMyWebIndexHome } from "@/components/hostmyweb-index-home";
 
 export default function HomePage() {
-  return <HostMyWebHome />;
+  return <HostMyWebIndexHome />;
 }
