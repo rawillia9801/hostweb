@@ -1,21 +1,14 @@
 import { ContactForm } from "@/components/contact-form";
 import { DomainSearch } from "@/components/domain-search";
 
-const products = [
-  { icon: "▦", title: "Shared Web Hosting", price: "From $7.99/mo", text: "Fast shared hosting with SSL, CDN, backups, security tools, DNS controls, and a customer account that keeps routine service work organized.", href: "#pricing" },
-  { icon: "◎", title: "Domains & DNS", price: "From $14.99/yr", text: "Search, register, renew, and manage domains with straightforward year-to-year pricing.", href: "#domains" },
-  { icon: "✉", title: "Business Email", price: "From $2.99/mo", text: "Professional email on your own domain, connected to the same HostMyWeb account.", href: "/signup?product=email" },
-  { icon: "✦", title: "AI Website Builder", price: "AI-assisted site creation", text: "Describe what you need, refine the structure and content, then connect the finished site to your hosting and domain.", href: "#ai-builder" },
-  { icon: "W", title: "Managed WordPress", price: "From $9.99/mo", text: "WordPress-ready hosting with SSL, backups, security tools, and a cleaner way to keep the technical side under control.", href: "#pricing" },
-  { icon: "↗", title: "Migrations & Support", price: "Migration tools included", text: "Use included migration tools yourself, or choose done-for-you migration and structured setup help from $49.", href: "#custom" },
-] as const;
-
 const plans = [
   {
     name: "Starter",
     price: "$7.99",
     unit: "/mo",
-    description: "A simple home for one business website.",
+    code: "HMW-01",
+    fit: "Single business site",
+    description: "A clean starting point for one business website with the core hosting and security tools included.",
     features: ["1 website", "SSL + CDN", "5 business mailboxes", "Backups", "Malware scanning", "DNS & file tools"],
     href: "/signup?plan=starter",
     popular: false,
@@ -24,7 +17,9 @@ const plans = [
     name: "Business",
     price: "$12.99",
     unit: "/mo",
-    description: "For established businesses with multiple sites and email users.",
+    code: "HMW-05",
+    fit: "Growing business",
+    description: "For established businesses managing several sites, more mailboxes, and day-to-day database work.",
     features: ["Up to 5 websites", "SSL + CDN", "25 business mailboxes", "Daily backups", "Security tools", "Database management"],
     href: "/signup?plan=business",
     popular: true,
@@ -33,7 +28,9 @@ const plans = [
     name: "Pro",
     price: "$21.99",
     unit: "/mo",
-    description: "More room for larger sites and multiple projects.",
+    code: "HMW-15",
+    fit: "Larger projects",
+    description: "More room for larger sites and multiple projects, with developer-oriented tools and priority support.",
     features: ["Up to 15 websites", "SSL + CDN", "50 business mailboxes", "Daily backups", "SSH & Git tools", "Priority support queue"],
     href: "/signup?plan=pro",
     popular: false,
@@ -42,7 +39,9 @@ const plans = [
     name: "Agency",
     price: "$39.99",
     unit: "/mo",
-    description: "For agencies, operators, and multi-site businesses.",
+    code: "HMW-30",
+    fit: "Multi-site operations",
+    description: "For agencies, operators, and multi-site businesses that need more organization and higher account capacity.",
     features: ["Up to 30 websites", "Multi-site organization", "100 business mailboxes", "Daily backups", "Advanced hosting tools", "Priority support queue"],
     href: "/signup?plan=agency",
     popular: false,
@@ -57,84 +56,156 @@ const domainPrices = [
 ] as const;
 
 const hostingFeatures = [
-  { mark: "SSL", title: "SSL certificates", text: "Keep websites encrypted without turning basic security into a separate add-on." },
-  { mark: "CDN", title: "Content delivery network", text: "Serve site assets through a distributed delivery layer for faster visitor access." },
-  { mark: "SEC", title: "Malware scanning", text: "Hosting security tools help identify malicious files and suspicious website activity." },
-  { mark: "WAF", title: "WAF & DDoS protection", text: "Network and application-layer protections help reduce common automated and denial-of-service threats." },
-  { mark: "BK", title: "Backup & restore", text: "Keep recoverable copies of website data and restore when something goes wrong." },
-  { mark: "1×", title: "One-click applications", text: "Launch common web applications without manually building every installation from scratch." },
-  { mark: "W", title: "WordPress tools", text: "Manage WordPress sites with hosting controls built around common maintenance tasks." },
-  { mark: "FM", title: "File management", text: "Work with website files through browser-based tools plus supported transfer access." },
-  { mark: "DB", title: "Database management", text: "Create and manage site databases with familiar administration tools." },
-  { mark: "DNS", title: "DNS management", text: "Manage the records that connect domains, websites, email, and other services." },
-  { mark: "DEV", title: "SSH & Git", text: "Developer-oriented access and version-control workflows are available where the selected package supports them." },
-  { mark: "MAIL", title: "Email controls", text: "Manage business mailboxes, forwarding, aliases, spam controls, and related email settings." },
+  { mark: "SSL", title: "SSL certificates", text: "Keep websites encrypted without turning basic security into a separate add-on.", status: "Included" },
+  { mark: "CDN", title: "Content delivery network", text: "Serve site assets through a distributed delivery layer for faster visitor access.", status: "Active" },
+  { mark: "SEC", title: "Malware scanning", text: "Hosting security tools help identify malicious files and suspicious website activity.", status: "Protected" },
+  { mark: "WAF", title: "WAF & DDoS protection", text: "Network and application-layer protections help reduce common automated and denial-of-service threats.", status: "Protected" },
+  { mark: "BK", title: "Backup & restore", text: "Keep recoverable copies of website data and restore when something goes wrong.", status: "Ready" },
+  { mark: "1×", title: "One-click applications", text: "Launch common web applications without manually building every installation from scratch.", status: "Available" },
+  { mark: "WP", title: "WordPress tools", text: "Manage WordPress sites with hosting controls built around common maintenance tasks.", status: "Available" },
+  { mark: "FM", title: "File management", text: "Work with website files through browser-based tools plus supported transfer access.", status: "Available" },
+  { mark: "DB", title: "Database management", text: "Create and manage site databases with familiar administration tools.", status: "Available" },
+  { mark: "DNS", title: "DNS management", text: "Manage the records that connect domains, websites, email, and other services.", status: "Available" },
+  { mark: "DEV", title: "SSH & Git", text: "Developer-oriented access and version-control workflows are available where the selected package supports them.", status: "By plan" },
+  { mark: "MAIL", title: "Email controls", text: "Manage business mailboxes, forwarding, aliases, spam controls, and related email settings.", status: "Available" },
+] as const;
+
+const products = [
+  { mark: "WEB", title: "Shared Web Hosting", meta: "From $7.99/mo", text: "Hosting, security, backups, DNS tools, and account controls in one service relationship.", href: "#pricing" },
+  { mark: "DNS", title: "Domains & DNS", meta: "From $14.99/yr", text: "Search, register, renew, and manage domains with the renewal price visible before checkout.", href: "#domains" },
+  { mark: "MAIL", title: "Business Email", meta: "From $2.99/mo", text: "Professional email on your own domain, connected to the same HostMyWeb account.", href: "/signup?product=email" },
+  { mark: "AI", title: "AI Website Builder", meta: "Guided creation", text: "Describe the site, shape its structure, refine the content, connect the domain, and publish.", href: "#ai-builder" },
+  { mark: "WP", title: "Managed WordPress", meta: "From $9.99/mo", text: "WordPress-ready hosting with SSL, backups, security tools, and common management controls.", href: "#pricing" },
+  { mark: "MOVE", title: "Migrations & Support", meta: "Tools included", text: "Use migration tools yourself or choose done-for-you migration and structured setup help from $49.", href: "#custom" },
 ] as const;
 
 const solutions = [
-  { mark: "S", title: "Small Businesses", text: "Hosting, domains, email, and website tools without unnecessary complexity." },
-  { mark: "V", title: "Service Businesses", text: "A dependable online foundation for local and professional service companies." },
-  { mark: "O", title: "Online Stores", text: "Hosting and domain infrastructure for commerce sites and product businesses." },
-  { mark: "C", title: "Creators", text: "Websites, domains, and email for creators who want a professional home online." },
-  { mark: "A", title: "Agencies", text: "Multi-site hosting and account organization for teams managing client work." },
-  { mark: "B", title: "Vertical Software", text: "A shared service layer that can sit quietly underneath purpose-built business platforms." },
+  { mark: "01", title: "Small Businesses", text: "Hosting, domains, email, and website tools without unnecessary complexity." },
+  { mark: "02", title: "Service Businesses", text: "A dependable online foundation for local and professional service companies." },
+  { mark: "03", title: "Online Stores", text: "Hosting and domain infrastructure for commerce sites and product businesses." },
+  { mark: "04", title: "Creators", text: "Websites, domains, and email for creators who want a professional home online." },
+  { mark: "05", title: "Agencies", text: "Multi-site hosting and account organization for teams managing client work." },
+  { mark: "06", title: "Vertical Software", text: "A shared service layer that can sit underneath purpose-built business platforms." },
 ] as const;
 
 const ecosystemProducts = [
   {
     name: "HostMyWeb",
     type: "Shared Hosting Foundation",
-    text: "Shared web hosting, domains, DNS, email, provisioning, account services, billing support, and the reusable service layer underneath connected products.",
+    text: "Hosting, domains, DNS, email, provisioning, account services, billing support, and reusable infrastructure.",
     href: "#top",
-    foundation: true,
-    spotlight: false,
-    mark: "H",
-    action: "Shared foundation",
+    mark: "HMW",
+    status: "CORE",
+    current: true,
   },
   {
     name: "DogBreederOS",
     type: "Flagship Vertical Platform",
-    text: "The operating system for running a modern dog breeding program—dogs, breeding, litters, buyers, applications, documents, websites, voice, payments, and portals.",
+    text: "A complete operating environment for modern dog breeding programs, powered by connected services and infrastructure.",
     href: "https://dogbreederos.com",
-    foundation: false,
-    spotlight: true,
-    mark: "OS",
-    action: "Explore DogBreederOS →",
+    mark: "DBOS",
+    status: "CONNECTED",
+    current: false,
   },
   {
     name: "DogBreederWeb",
     type: "Connected Website Capability",
-    text: "Breeder websites, guided site creation, custom domains, publishing, and connected breeder records—available as part of the breeder ecosystem or on its own.",
+    text: "Breeder websites, guided creation, custom domains, publishing, and connected breeder records.",
     href: "https://dogbreederweb.site",
-    foundation: false,
-    spotlight: false,
-    mark: "W",
-    action: "Explore DogBreederWeb →",
+    mark: "DBW",
+    status: "CONNECTED",
+    current: false,
   },
   {
     name: "DogBreederDocs",
     type: "Connected Document Capability",
-    text: "Reusable breeder documents, agreements, editing, sending, and e-signature workflows—connected to the same broader breeder operating model.",
+    text: "Reusable breeder documents, agreements, editing, sending, and e-signature workflows.",
     href: "https://dogbreederdocs.online",
-    foundation: false,
-    spotlight: false,
-    mark: "D",
-    action: "Explore DogBreederDocs →",
+    mark: "DBD",
+    status: "CONNECTED",
+    current: false,
+  },
+] as const;
+
+const footerColumns = [
+  {
+    title: "Hosting",
+    links: [
+      ["Shared Web Hosting", "#pricing"],
+      ["Starter Hosting", "/signup?plan=starter"],
+      ["Business Hosting", "/signup?plan=business"],
+      ["Pro Hosting", "/signup?plan=pro"],
+      ["Agency Hosting", "/signup?plan=agency"],
+      ["Managed WordPress", "#products"],
+    ],
+  },
+  {
+    title: "Domains & Email",
+    links: [
+      ["Domain Search", "#domains"],
+      ["Domain Pricing", "#domains"],
+      ["Business Email", "#products"],
+      ["DNS Management", "#hosting-features"],
+      ["Email Controls", "#hosting-features"],
+    ],
+  },
+  {
+    title: "Infrastructure",
+    links: [
+      ["SSL Certificates", "#hosting-features"],
+      ["CDN", "#hosting-features"],
+      ["Backups & Restore", "#hosting-features"],
+      ["Malware Scanning", "#hosting-features"],
+      ["WAF & DDoS Protection", "#hosting-features"],
+      ["SSH & Git", "#hosting-features"],
+    ],
+  },
+  {
+    title: "Website Services",
+    links: [
+      ["AI Website Builder", "#ai-builder"],
+      ["Migration Tools", "#custom"],
+      ["Done-for-You Migration", "#custom"],
+      ["Custom Setup", "#custom"],
+      ["Multi-Site Moves", "#custom"],
+    ],
+  },
+  {
+    title: "Ecosystem",
+    links: [
+      ["DogBreederOS", "https://dogbreederos.com"],
+      ["DogBreederWeb", "https://dogbreederweb.site"],
+      ["DogBreederDocs", "https://dogbreederdocs.online"],
+      ["Shared Architecture", "#ecosystem"],
+      ["Who We Serve", "#solutions"],
+    ],
+  },
+  {
+    title: "Account & Support",
+    links: [
+      ["Log In", "/account"],
+      ["Create Account", "/signup"],
+      ["Service Management", "/account"],
+      ["Support Tickets", "/account"],
+      ["Support", "#support"],
+      ["Custom Help", "#custom"],
+    ],
   },
 ] as const;
 
 export default function HomePage() {
   return (
-    <main id="top">
-      <header className="site-header storefront-header architectural-header">
-        <a className="brand" href="#top" aria-label="HostMyWeb home">
-          <span className="brand-mark"><i /><i /><i /></span><b>HostMyWeb</b>
+    <main id="top" className="hmw-page">
+      <header className="site-header hmw-header">
+        <a className="brand hmw-brand" href="#top" aria-label="HostMyWeb home">
+          <span className="brand-mark"><i /><i /><i /></span>
+          <span><b>HostMyWeb</b><small>HOSTING OPERATIONS</small></span>
         </a>
         <nav aria-label="Primary navigation">
-          <a href="#pricing">Shared Hosting</a>
-          <a href="#hosting-features">Features</a>
+          <a href="#pricing">Hosting</a>
+          <a href="#hosting-features">Infrastructure</a>
           <a href="#domains">Domains</a>
-          <a href="#ai-builder">AI Website Builder</a>
+          <a href="#products">Services</a>
           <a href="#ecosystem">Ecosystem</a>
           <a href="#support">Support</a>
         </nav>
@@ -144,394 +215,300 @@ export default function HomePage() {
         </div>
       </header>
 
-      <section className="hero storefront-hero architectural-hero">
-        <div className="hero-copy architectural-copy">
-          <span className="architecture-kicker">SHARED WEB HOSTING WITHOUT THE GOTCHA</span>
-          <h1>Straightforward Pricing.<br /><em>No Gimmicks.</em></h1>
-          <p>Shared web hosting, fair domain pricing, business email, and connected website services—without teaser rates, inflated renewal pricing, or a long contract just to get the advertised price.</p>
-          <div className="hero-actions">
+      <section className="hmw-command-hero">
+        <div className="hmw-hero-copy">
+          <div className="hmw-status-label"><i /> HOSTMYWEB MISSION CONTROL <span>PUBLIC HOSTING NETWORK</span></div>
+          <h1>Web hosting without the <em>renewal trap.</em></h1>
+          <p>Shared web hosting, domains, business email, website services, and account controls in one operational layer—with a base hosting price that does not jump because an introductory period ended.</p>
+          <div className="hmw-hero-actions">
             <a className="primary-button" href="#pricing">View Shared Hosting <span>→</span></a>
-            <a className="secondary-button" href="#domains">Search Domains</a>
+            <a className="hmw-outline-button" href="#domains">Search Domains</a>
           </div>
-          <div className="hero-price-line">
-            <span>Shared hosting from <b>$7.99/mo</b></span>
-            <i />
-            <span><b>$7.99 today. $7.99 at renewal.</b></span>
-            <i />
-            <span><b>No multi-year contract required</b></span>
+          <div className="hmw-price-callout">
+            <div><small>STARTER HOSTING</small><strong>$7.99<span>/mo</span></strong></div>
+            <div><small>RENEWAL RATE</small><strong>$7.99<span>/mo</span></strong></div>
+            <div><small>PRICE JUMP</small><strong>$0</strong></div>
           </div>
-          <div className="proof-row architectural-proof">
-            <span><b>✓</b> HostMyWeb Price Lock</span>
-            <span><b>✓</b> No teaser rates</span>
-            <span><b>✓</b> Security & backup tools</span>
-            <span><b>✓</b> Human support when needed</span>
-          </div>
+          <small className="hmw-hero-note">No long-term contract is required to get the advertised hosting price.</small>
         </div>
 
-        <div className="architecture-visual" aria-label="HostMyWeb service architecture">
-          <div className="architecture-glow" />
-          <div className="architecture-grid-lines" />
-          <div className="architecture-core">
-            <span className="brand-mark architecture-mark"><i /><i /><i /></span>
-            <small>SHARED HOSTING FOUNDATION</small>
-            <strong>HostMyWeb</strong>
-            <p>Shared hosting, domains, email, provisioning, account, and support services in one foundation.</p>
+        <div className="hmw-control-board" aria-label="HostMyWeb service operations overview">
+          <div className="hmw-console-topbar">
+            <div><i /><span>HOSTMYWEB CONTROL</span></div>
+            <div><b>SYSTEM ONLINE</b><span>●</span></div>
           </div>
-          <div className="architecture-node node-hosting"><span>▦</span><div><b>Shared Hosting</b><small>Fast, secure hosting</small></div></div>
-          <div className="architecture-node node-domains"><span>◎</span><div><b>Domains</b><small>Registration & DNS</small></div></div>
-          <div className="architecture-node node-email"><span>✉</span><div><b>Email</b><small>Business mailboxes</small></div></div>
-          <div className="architecture-node node-ai"><span>✦</span><div><b>AI Builder</b><small>Guided site creation</small></div></div>
-          <div className="architecture-node node-account"><span>○</span><div><b>Account</b><small>Services & billing</small></div></div>
-          <div className="architecture-node node-support"><span>?</span><div><b>Support</b><small>Structured help</small></div></div>
-          <svg className="architecture-links" viewBox="0 0 720 520" aria-hidden="true">
-            <path d="M360 260 C255 230 220 145 145 125" />
-            <path d="M360 260 C250 260 210 260 115 260" />
-            <path d="M360 260 C255 305 220 390 150 408" />
-            <path d="M360 260 C465 230 500 145 575 125" />
-            <path d="M360 260 C470 260 510 260 605 260" />
-            <path d="M360 260 C465 305 500 390 570 408" />
-          </svg>
+          <div className="hmw-console-grid">
+            <article className="hmw-console-card hmw-console-card-core">
+              <div className="hmw-console-mark">H</div>
+              <small>CORE SERVICE LAYER</small>
+              <h2>HostMyWeb</h2>
+              <p>Shared infrastructure with customer-facing control.</p>
+              <div className="hmw-core-status"><span>Hosting</span><span>Domains</span><span>Email</span><span>Support</span></div>
+            </article>
+            <article className="hmw-console-card"><span className="hmw-module-code">WEB</span><small>HOSTING</small><b>Shared Web Hosting</b><em>ONLINE</em></article>
+            <article className="hmw-console-card"><span className="hmw-module-code">DNS</span><small>DOMAIN LAYER</small><b>Domains & DNS</b><em>READY</em></article>
+            <article className="hmw-console-card"><span className="hmw-module-code">MAIL</span><small>MESSAGING</small><b>Business Email</b><em>READY</em></article>
+            <article className="hmw-console-card"><span className="hmw-module-code">AI</span><small>BUILD SYSTEM</small><b>AI Site Builder</b><em>READY</em></article>
+            <article className="hmw-console-card"><span className="hmw-module-code">SEC</span><small>PROTECTION</small><b>Security Layer</b><em>ACTIVE</em></article>
+            <article className="hmw-console-card"><span className="hmw-module-code">ACC</span><small>CONTROL</small><b>Customer Account</b><em>SECURE</em></article>
+          </div>
+          <div className="hmw-console-footer"><span><i /> NETWORK STATUS: NORMAL</span><span>PRICE LOCK: ACTIVE</span><span>ACCOUNT CONTROL: AVAILABLE</span></div>
         </div>
       </section>
 
-      <section className="price-lock-ribbon" aria-label="HostMyWeb Price Lock">
-        <div>
-          <span>HOSTMYWEB PRICE LOCK</span>
-          <strong>The price you sign up for is the price you keep.</strong>
-        </div>
-        <p>No introductory rate. No renewal-rate increase. No long-term contract required to get the advertised hosting price.</p>
-        <a href="#price-lock">See how Price Lock works →</a>
+      <section className="hmw-telemetry-bar" aria-label="HostMyWeb hosting telemetry">
+        <div className="hmw-telemetry-lead"><i /> SYSTEM ONLINE</div>
+        <div><small>PRICE POLICY</small><b>LOCKED</b></div>
+        <div><small>STARTER RATE</small><b>$7.99/MO</b></div>
+        <div><small>INTRO RATE</small><b>NONE</b></div>
+        <div><small>RENEWAL SURGE</small><b>NONE</b></div>
+        <div><small>LONG CONTRACT</small><b>NOT REQUIRED</b></div>
       </section>
 
-      <section className="domain-band storefront-domain architectural-domain" id="domains">
-        <div className="domain-band-copy">
-          <span>FAIR DOMAIN PRICING</span>
-          <h2>Find the right domain.</h2>
-          <p>Search current availability and see the renewal price before you buy. Common extensions keep the same HostMyWeb price at renewal.</p>
+      <section className="hmw-domain-section" id="domains">
+        <div className="hmw-section-intro hmw-section-intro-light">
+          <div className="hmw-section-kicker"><i /> DOMAIN ACQUISITION</div>
+          <h2>Find the right domain.<br /><em>See the renewal before you buy.</em></h2>
+          <p>Search current availability through the domain platform, then create an account to complete registration. Common extensions show the HostMyWeb registration and renewal price together.</p>
+          <div className="hmw-mini-telemetry">
+            <span><b>01</b> Search availability</span>
+            <span><b>02</b> See registration price</span>
+            <span><b>03</b> See renewal price</span>
+          </div>
         </div>
-        <div>
-          <DomainSearch />
-          <div className="domain-price-grid">
+        <div className="hmw-domain-workstation">
+          <div className="hmw-workstation-head"><div><i /> DOMAIN CONTROL</div><span>LIVE SEARCH</span></div>
+          <div className="hmw-domain-search-shell"><DomainSearch /></div>
+          <div className="hmw-domain-price-grid">
             {domainPrices.map((item) => (
               <article key={item.tld}>
-                <b>{item.tld}</b>
-                <strong>{item.price}<small>/yr</small></strong>
-                <span>{item.note}</span>
+                <div><small>TLD</small><b>{item.tld}</b></div>
+                <strong>{item.price}<span>/yr</span></strong>
+                <p>{item.note}</p>
+                <em>PRICE VISIBLE</em>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="ecosystem-architecture" id="ecosystem">
-        <div className="ecosystem-heading">
-          <span>CONNECTED ECOSYSTEM</span>
-          <h2>Shared hosting underneath.<br />Purpose-built software on top.</h2>
-          <p>HostMyWeb is a general-purpose shared hosting company first. The same reusable infrastructure can also sit underneath connected products such as DogBreederOS, DogBreederWeb, and DogBreederDocs where a specialized workflow makes sense.</p>
+      <section className="hmw-pricing-section" id="pricing">
+        <div className="hmw-section-heading-row">
+          <div className="hmw-section-intro">
+            <div className="hmw-section-kicker"><i /> SHARED HOSTING PLANS</div>
+            <h2>Pick the capacity.<br /><em>Keep the price.</em></h2>
+            <p>Each plan has one real monthly hosting rate. You do not need to prepay for years to unlock the number shown on the card.</p>
+          </div>
+          <div className="hmw-price-lock-panel">
+            <small>HOSTMYWEB PRICE LOCK</small>
+            <strong>The price you sign up for is the price you keep.</strong>
+            <p>The base hosting subscription stays at the same monthly rate while you continuously keep that same plan active.</p>
+            <a href="#price-lock">Review Price Lock →</a>
+          </div>
         </div>
-        <div className="ecosystem-flow">
+
+        <div className="hmw-plan-grid">
+          {plans.map((plan) => (
+            <article className={plan.popular ? "hmw-plan-card hmw-plan-featured" : "hmw-plan-card"} key={plan.name}>
+              <div className="hmw-plan-head">
+                <span>{plan.code}</span>
+                <em>{plan.popular ? "RECOMMENDED" : "PRICE LOCKED"}</em>
+              </div>
+              <small>{plan.fit}</small>
+              <h3>{plan.name}</h3>
+              <div className="hmw-plan-price"><b>{plan.price}</b><span>{plan.unit}</span></div>
+              <div className="hmw-plan-renewal"><span>Today</span><b>{plan.price}</b><i /> <span>Renewal</span><b>{plan.price}</b></div>
+              <p>{plan.description}</p>
+              <ul>{plan.features.map((item) => <li key={item}><i />{item}</li>)}</ul>
+              <a href={plan.href}>Choose {plan.name} <span>→</span></a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="hmw-price-lock-section" id="price-lock">
+        <div className="hmw-price-lock-copy">
+          <div className="hmw-section-kicker hmw-kicker-green"><i /> PRICE POLICY / ACTIVE</div>
+          <h2>$7.99 means <em>$7.99.</em></h2>
+          <p>If Starter is $7.99 per month when you sign up, the base hosting rate remains $7.99 per month while you continuously keep that same plan active. No artificial expiration date is attached to the advertised hosting price.</p>
+          <div className="hmw-lock-timeline">
+            <article><small>MONTH 1</small><b>$7.99</b><span>Base monthly rate</span></article>
+            <i>→</i>
+            <article><small>YEAR 1</small><b>$7.99/mo</b><span>No renewal jump</span></article>
+            <i>→</i>
+            <article><small>YEAR 10</small><b>$7.99/mo</b><span>Same base rate</span></article>
+          </div>
+          <small className="hmw-lock-legal">Price Lock applies to the base hosting subscription while the same plan remains continuously active. Taxes, government-mandated fees, domains, optional add-ons, usage-based charges, and customer-requested plan changes are separate.</small>
+        </div>
+        <div className="hmw-comparison-console">
+          <div className="hmw-comparison-head"><span>PRICING TELEMETRY</span><b>HostMyWeb vs. intro-rate hosting</b><em>LIVE POLICY</em></div>
+          <div className="hmw-comparison-row hmw-comparison-label"><span>EVENT</span><b>HOSTMYWEB</b><i>TYPICAL INTRO MODEL</i></div>
+          <div className="hmw-comparison-row"><span>Advertised rate</span><b>Real ongoing rate</b><i>Promotional rate</i></div>
+          <div className="hmw-comparison-row"><span>Renewal</span><b>Same base price</b><i>Often higher</i></div>
+          <div className="hmw-comparison-row"><span>Long contract required</span><b>No</b><i>Often</i></div>
+          <div className="hmw-comparison-row"><span>Renewal price jump</span><b>$0</b><i>Common</i></div>
+          <div className="hmw-comparison-foot"><i /> HOSTMYWEB PRICE LOCK ACTIVE</div>
+        </div>
+      </section>
+
+      <section className="hmw-infrastructure-section" id="hosting-features">
+        <div className="hmw-section-heading-row hmw-infrastructure-heading">
+          <div className="hmw-section-intro hmw-section-intro-light">
+            <div className="hmw-section-kicker"><i /> INFRASTRUCTURE CONTROL</div>
+            <h2>See what sits behind<br /><em>the hosting plan.</em></h2>
+            <p>The important hosting capabilities should be visible before checkout. Package limits and advanced-tool access can vary by plan, but the platform should never feel like a mystery box.</p>
+          </div>
+          <div className="hmw-infra-readout">
+            <span><i /> CORE SERVICES NOMINAL</span>
+            <div><small>SECURITY</small><b>ACTIVE</b></div>
+            <div><small>BACKUPS</small><b>READY</b></div>
+            <div><small>DNS</small><b>AVAILABLE</b></div>
+            <div><small>EMAIL</small><b>AVAILABLE</b></div>
+          </div>
+        </div>
+        <div className="hmw-infrastructure-grid">
+          {hostingFeatures.map((feature) => (
+            <article key={feature.title}>
+              <div className="hmw-feature-top"><span>{feature.mark}</span><em><i />{feature.status}</em></div>
+              <h3>{feature.title}</h3>
+              <p>{feature.text}</p>
+            </article>
+          ))}
+        </div>
+        <div className="hmw-migration-console">
+          <div>
+            <div className="hmw-section-kicker hmw-kicker-green"><i /> MIGRATION OPERATIONS</div>
+            <h3>Move it yourself or hand us the move.</h3>
+            <p>Migration tools are included with hosting. Done-for-you migration is available for customers who want HostMyWeb to handle the move, configuration, DNS transition, and verification.</p>
+          </div>
+          <article><small>SELF-SERVICE</small><b>Included</b><strong>Migration tools</strong><span>For customers who want to move their own site.</span></article>
+          <article><small>ASSISTED</small><b>From $49</b><strong>Done-for-you migration</strong><span>Structured human-assisted migration and transition support.</span></article>
+        </div>
+      </section>
+
+      <section className="hmw-products-section" id="products">
+        <div className="hmw-section-intro">
+          <div className="hmw-section-kicker"><i /> CONNECTED SERVICES</div>
+          <h2>The essentials,<br /><em>one control layer.</em></h2>
+          <p>Hosting, domains, email, site creation, WordPress, migrations, and support stay connected instead of becoming six separate chores.</p>
+        </div>
+        <div className="hmw-product-grid">
+          {products.map((product) => (
+            <article key={product.title}>
+              <div className="hmw-product-head"><span>{product.mark}</span><em>MODULE READY</em></div>
+              <small>{product.meta}</small>
+              <h3>{product.title}</h3>
+              <p>{product.text}</p>
+              <a href={product.href}>Open module <span>→</span></a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="hmw-ai-section" id="ai-builder">
+        <div className="hmw-ai-copy">
+          <div className="hmw-section-kicker hmw-kicker-green"><i /> AI WEBSITE BUILDER</div>
+          <h2>Start with structure.<br /><em>Refine from there.</em></h2>
+          <p>Describe the business, shape the page structure, organize services and the contact journey, refine the content, connect the domain, and publish when the site is ready.</p>
+          <div className="hmw-ai-steps"><span><b>01</b>Describe</span><span><b>02</b>Structure</span><span><b>03</b>Refine</span><span><b>04</b>Publish</span></div>
+          <a className="primary-button" href="/signup?product=ai-builder">Create an account →</a>
+        </div>
+        <div className="hmw-ai-console">
+          <div className="hmw-workstation-head"><div><i /> BUILD CONTROL</div><span>AI ASSISTED</span></div>
+          <div className="hmw-ai-prompt"><small>MISSION INPUT</small><p>“Create a clean website for a local accounting firm with services, team, resources, location details, and a consultation request.”</p><button type="button">Generate structure ✦</button></div>
+          <div className="hmw-ai-output"><article><span>01</span><b>Home</b><small>Value proposition</small></article><article><span>02</span><b>Services</b><small>Service pages</small></article><article><span>03</span><b>Business Info</b><small>Team + location</small></article><article><span>04</span><b>Contact</b><small>Conversion route</small></article></div>
+          <div className="hmw-console-footer"><span><i /> STRUCTURE READY</span><span>DOMAIN: PENDING</span><span>PUBLISH: MANUAL</span></div>
+        </div>
+      </section>
+
+      <section className="hmw-account-section" id="hosting">
+        <div className="hmw-account-console">
+          <div className="hmw-workstation-head"><div><i /> CUSTOMER CONTROL</div><span>SECURE SESSION</span></div>
+          <div className="hmw-account-overview">
+            <div className="hmw-account-sidebar">
+              <b>HostMyWeb</b><span className="active">Overview</span><span>Hosting</span><span>Domains</span><span>Email</span><span>Orders</span><span>Support</span>
+            </div>
+            <div className="hmw-account-main">
+              <div className="hmw-account-title"><div><small>ACCOUNT OVERVIEW</small><h3>Operations Center</h3></div><em><i /> ALL SERVICES NORMAL</em></div>
+              <div className="hmw-account-stats"><article><small>HOSTING</small><b>Active</b><span>Service status</span></article><article><small>DOMAINS</small><b>Managed</b><span>Renewal visibility</span></article><article><small>SUPPORT</small><b>Tracked</b><span>Ticket history</span></article></div>
+              <div className="hmw-account-list"><article><i /> Hosting plans and service status <b>VIEW →</b></article><article><i /> Domains and renewal dates <b>VIEW →</b></article><article><i /> Orders and payment history <b>VIEW →</b></article><article><i /> Support requests and status <b>VIEW →</b></article></div>
+            </div>
+          </div>
+        </div>
+        <div className="hmw-account-copy">
+          <div className="hmw-section-kicker hmw-kicker-green"><i /> CUSTOMER ACCOUNT</div>
+          <h2>Your services should not require a support ticket to understand.</h2>
+          <p>Your HostMyWeb account keeps hosting, domains, orders, renewals, and support history together so routine account work stays self-service.</p>
+          <div className="hmw-account-checks"><span>✓ View hosting services</span><span>✓ Track domains</span><span>✓ View orders</span><span>✓ Keep ticket history</span><span>✓ Add services</span><span>✓ Structured support</span></div>
+          <a className="primary-button" href="/signup">Create your account →</a>
+        </div>
+      </section>
+
+      <section className="hmw-ecosystem-section" id="ecosystem">
+        <div className="hmw-section-intro hmw-section-intro-light">
+          <div className="hmw-section-kicker"><i /> CONNECTED ECOSYSTEM</div>
+          <h2>Shared infrastructure underneath.<br /><em>Purpose-built software on top.</em></h2>
+          <p>HostMyWeb is a general-purpose hosting company first. The same reusable service layer can also sit underneath specialized products where the workflow needs something more focused.</p>
+        </div>
+        <div className="hmw-ecosystem-grid">
           {ecosystemProducts.map((product) => (
-            <a
-              className={`ecosystem-node-card ${product.foundation ? "foundation" : ""} ${product.spotlight ? "spotlight" : ""}`}
-              href={product.href}
-              key={product.name}
-              target={product.foundation ? undefined : "_blank"}
-              rel={product.foundation ? undefined : "noreferrer"}
-            >
-              <span className="ecosystem-node-mark">{product.mark}</span>
+            <a className={product.current ? "hmw-ecosystem-card hmw-ecosystem-current" : "hmw-ecosystem-card"} href={product.href} key={product.name} target={product.current ? undefined : "_blank"} rel={product.current ? undefined : "noreferrer"}>
+              <div className="hmw-ecosystem-head"><span>{product.mark}</span><em><i />{product.status}</em></div>
               <small>{product.type}</small>
               <h3>{product.name}</h3>
               <p>{product.text}</p>
-              <b>{product.action}</b>
+              <b>{product.current ? "INFRASTRUCTURE CORE" : "Open product →"}</b>
             </a>
           ))}
         </div>
       </section>
 
-      <section className="section plans-section architectural-pricing" id="pricing">
-        <header className="section-heading">
-          <span>SHARED WEB HOSTING</span>
-          <h2>Pick the plan that fits.</h2>
-          <p>One real monthly price. Pay month-to-month, keep it for a year, or keep it for ten years—the base monthly hosting rate does not jump at renewal.</p>
-        </header>
-        <div className="plan-grid">
-          {plans.map((plan) => (
-            <article className={plan.popular ? "featured-plan" : ""} key={plan.name}>
-              {plan.popular && <em>MOST POPULAR</em>}
-              <h3>{plan.name}</h3>
-              <div className="live-price"><b>{plan.price}</b><span>{plan.unit}</span></div>
-              <div className="plan-lock"><b>PRICE LOCKED</b><span>Not an introductory rate</span></div>
-              <p>{plan.description}</p>
-              <ul>{plan.features.map((item) => <li key={item}>✓ {item}</li>)}</ul>
-              <a href={plan.href}>Choose {plan.name}</a>
-            </article>
-          ))}
+      <section className="hmw-solutions-section" id="solutions">
+        <div className="hmw-section-intro">
+          <div className="hmw-section-kicker"><i /> WHO HOSTMYWEB SERVES</div>
+          <h2>Built for businesses<br /><em>that want less friction.</em></h2>
+          <p>Use HostMyWeb directly for shared web hosting and related services, or let it operate quietly underneath a purpose-built platform.</p>
         </div>
-        <div className="pricing-note">
-          <b>No teaser pricing.</b>
-          <span>Your base hosting subscription does not get more expensive because a promotional period ended.</span>
-        </div>
-      </section>
-
-      <section className="price-lock-section" id="price-lock">
-        <div className="price-lock-copy">
-          <span>THE HOSTMYWEB PRICE LOCK</span>
-          <h2>$7.99 means $7.99.</h2>
-          <p>If Starter is $7.99 per month when you sign up, the base hosting rate remains $7.99 per month while you continuously keep that same plan active. You do not have to prepay for years to earn the advertised rate.</p>
-          <div className="price-lock-examples">
-            <article><small>MONTH 1</small><b>$7.99</b><span>Same monthly rate</span></article>
-            <article><small>YEAR 1</small><b>$7.99/mo</b><span>No renewal jump</span></article>
-            <article><small>YEAR 10</small><b>$7.99/mo</b><span>Still the same base rate</span></article>
-          </div>
-          <small className="price-lock-legal">Price Lock applies to the base hosting subscription while the same plan remains continuously active. Taxes, government-mandated fees, domains, optional add-ons, usage-based charges, and customer-requested plan changes are separate.</small>
-        </div>
-
-        <div className="price-comparison" aria-label="HostMyWeb pricing comparison">
-          <div className="comparison-head">
-            <span>PRICING COMPARISON</span>
-            <h3>No renewal surprise.</h3>
-          </div>
-          <div className="comparison-row comparison-labels">
-            <b>What happens?</b><strong>HostMyWeb</strong><span>Typical intro pricing</span>
-          </div>
-          <div className="comparison-row">
-            <b>Advertised monthly rate</b><strong>Real ongoing rate</strong><span>Promotional rate</span>
-          </div>
-          <div className="comparison-row">
-            <b>Renewal</b><strong>Same base price</strong><span>Often higher</span>
-          </div>
-          <div className="comparison-row">
-            <b>Long contract required</b><strong>No</strong><span>Often</span>
-          </div>
-          <div className="comparison-row">
-            <b>Renewal price jump</b><strong>$0</strong><span>Common</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="section hosting-features-section" id="hosting-features">
-        <header className="section-heading">
-          <span>SHARED HOSTING FEATURES</span>
-          <h2>The hosting tools should be visible before you buy.</h2>
-          <p>HostMyWeb now explains the infrastructure and controls behind the plans instead of hiding the important details behind a generic “hosting” label. Package limits and advanced-tool access can vary by plan.</p>
-        </header>
-        <div className="hosting-feature-grid">
-          {hostingFeatures.map((feature) => (
-            <article key={feature.title}>
-              <span>{feature.mark}</span>
-              <div>
-                <h3>{feature.title}</h3>
-                <p>{feature.text}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-        <div className="migration-feature-strip">
-          <div>
-            <span>MIGRATIONS</span>
-            <h3>Move it yourself or let us handle it.</h3>
-            <p>Migration tools are included with hosting. If you want HostMyWeb to handle the move, configuration, DNS transition, and verification, done-for-you migration starts at $49.</p>
-          </div>
-          <div className="migration-options">
-            <article><b>Included</b><strong>Migration tools</strong><span>For customers who want to move their own site.</span></article>
-            <article><b>From $49</b><strong>Done-for-you migration</strong><span>Structured human-assisted migration and transition support.</span></article>
-          </div>
-        </div>
-      </section>
-
-      <section className="section products-section architectural-products" id="products">
-        <header className="section-heading">
-          <span>HOSTMYWEB PRODUCTS</span>
-          <h2>The essentials, connected.</h2>
-          <p>Shared hosting, domains, email, site creation, WordPress, and support stay part of one customer relationship instead of becoming six separate chores.</p>
-        </header>
-        <div className="product-grid storefront-product-grid">
-          {products.map((product) => (
-            <article className={product.title === "AI Website Builder" ? "ai-product-card" : ""} key={product.title}>
-              <span className="product-icon">{product.icon}</span>
-              <small>{product.price}</small>
-              <h3>{product.title}</h3>
-              <p>{product.text}</p>
-              <a href={product.href}>Explore <span>→</span></a>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="ai-builder-spotlight" id="ai-builder">
-        <div className="ai-builder-copy">
-          <span>AI WEBSITE BUILDER</span>
-          <h2>Start with structure. Refine the experience from there.</h2>
-          <p>Describe the business, shape the page structure, organize the services and contact journey, refine the content, connect the domain, and publish when the site is ready.</p>
-          <div className="ai-builder-steps">
-            <span><b>1</b> Describe</span>
-            <span><b>2</b> Structure</span>
-            <span><b>3</b> Refine</span>
-            <span><b>4</b> Publish</span>
-          </div>
-          <a className="primary-button" href="/signup?product=ai-builder">Create an account →</a>
-        </div>
-        <div className="ai-builder-panel" aria-label="AI website builder workflow preview">
-          <div className="ai-panel-head"><b>AI Website Builder</b><span>Connected to HostMyWeb</span></div>
-          <div className="ai-prompt">
-            <small>DESCRIBE THE SITE</small>
-            <p>“Create a clean website for a local accounting firm with services, team, resources, location details, and a consultation request.”</p>
-            <button type="button">Generate structure ✦</button>
-          </div>
-          <div className="ai-output-grid">
-            <article><span>01</span><b>Home</b><small>Clear value proposition</small></article>
-            <article><span>02</span><b>Services</b><small>Structured service pages</small></article>
-            <article><span>03</span><b>Business Info</b><small>Team and local details</small></article>
-            <article><span>04</span><b>Contact</b><small>Conversion-ready route</small></article>
-          </div>
-        </div>
-      </section>
-
-      <section className="hosting-section storefront-account-section architectural-account" id="hosting">
-        <div className="hosting-copy">
-          <span>CUSTOMER CONTROL</span>
-          <h2>Your services should not require a support ticket to understand.</h2>
-          <p>Your HostMyWeb account keeps hosting, domains, orders, renewals, and support history together so routine account work stays self-service.</p>
-          <div className="hosting-checks">
-            <span>✓ View hosting services</span><span>✓ Track domains</span><span>✓ View orders</span>
-            <span>✓ Keep ticket history</span><span>✓ Add services</span><span>✓ Structured support</span>
-          </div>
-          <a className="primary-button" href="/signup">Create your account →</a>
-        </div>
-        <div className="hosting-console">
-          <div className="console-head"><div><b>HostMyWeb Account</b><span>One place for the services you use</span></div><em>● Secure</em></div>
-          <div className="account-feature-list">
-            <article><b>Hosting</b><span>Plans and service status</span></article>
-            <article><b>Domains</b><span>Domain status and renewals</span></article>
-            <article><b>Email</b><span>Business email services</span></article>
-            <article><b>Orders</b><span>Order and payment history</span></article>
-            <article><b>Support</b><span>Structured tickets and history</span></article>
-            <article><b>Account</b><span>Secure customer access</span></article>
-          </div>
-        </div>
-      </section>
-
-      <section className="section architectural-solutions" id="solutions">
-        <header className="section-heading">
-          <span>WHO HOSTMYWEB SERVES</span>
-          <h2>Built for businesses that want less friction.</h2>
-          <p>Use HostMyWeb directly for shared web hosting and related services, or let it operate quietly underneath a purpose-built platform when the workflow needs something more specialized.</p>
-        </header>
-        <div className="solution-chip-grid">
+        <div className="hmw-solution-grid">
           {solutions.map((solution) => (
-            <article key={solution.title}>
-              <span>{solution.mark}</span>
-              <div><h3>{solution.title}</h3><p>{solution.text}</p></div>
-            </article>
+            <article key={solution.title}><span>{solution.mark}</span><div><h3>{solution.title}</h3><p>{solution.text}</p></div></article>
           ))}
         </div>
       </section>
 
-      <section className="support-section storefront-support" id="support">
-        <div><span>SUPPORT WITHOUT THE RUNAROUND</span><h2>Self-service first. Human help when something actually needs a person.</h2></div>
-        <div className="support-cards">
-          <article><b>Account tools</b><p>See services, domains, orders, and account details without starting a support request.</p></article>
-          <article><b>Structured support</b><p>Choose a category for hosting, domains, DNS, email, billing, migrations, or account help.</p></article>
-          <article><b>Ticket history</b><p>Keep support requests and their status organized inside your customer account.</p></article>
-        </div>
+      <section className="hmw-support-section" id="support">
+        <div className="hmw-support-heading"><div className="hmw-section-kicker hmw-kicker-green"><i /> SUPPORT OPERATIONS</div><h2>Self-service first.<br /><em>Human help when it matters.</em></h2><p>Routine account work stays in your control. When something actually needs a person, support is structured so the request has context from the start.</p></div>
+        <div className="hmw-support-grid"><article><span>01</span><b>Account tools</b><p>See services, domains, orders, and account details without starting a support request.</p><em>SELF-SERVICE</em></article><article><span>02</span><b>Structured support</b><p>Choose a category for hosting, domains, DNS, email, billing, migrations, or account help.</p><em>ROUTED</em></article><article><span>03</span><b>Ticket history</b><p>Keep support requests and their status organized inside your customer account.</p><em>TRACKED</em></article></div>
       </section>
 
-      <section className="section contact-section storefront-custom" id="custom">
-        <div className="contact-copy">
-          <span className="eyebrow"><i /> CUSTOM &amp; COMPLEX WORK</span>
+      <section className="hmw-custom-section" id="custom">
+        <div className="hmw-custom-copy">
+          <div className="hmw-section-kicker"><i /> CUSTOM OPERATIONS REQUEST</div>
           <h2>Need a migration, multi-site setup, or something outside the standard plans?</h2>
-          <p>Use this form for work that genuinely needs a custom setup or human review.</p>
-          <div className="contact-points">
-            <span>✓ Done-for-you migrations</span><span>✓ Multi-site moves</span>
-            <span>✓ Custom infrastructure</span><span>✓ Business email migrations</span>
-          </div>
+          <p>Use this request channel for work that genuinely needs a custom setup or human review.</p>
+          <div className="hmw-custom-checks"><span>✓ Done-for-you migrations</span><span>✓ Multi-site moves</span><span>✓ Custom infrastructure</span><span>✓ Business email migrations</span></div>
         </div>
-        <ContactForm />
+        <div className="hmw-contact-shell"><div className="hmw-workstation-head"><div><i /> REQUEST INTAKE</div><span>HUMAN REVIEW</span></div><ContactForm /></div>
       </section>
 
-      <footer className="site-footer storefront-footer architectural-footer">
-        <div className="footer-promise">
-          <div>
-            <span>STRAIGHTFORWARD HOSTING</span>
-            <h2>The price you see is the price you keep.</h2>
-            <p>No teaser rate. No inflated hosting renewal. No multi-year commitment just to get the number printed on the page.</p>
-          </div>
-          <div className="footer-promise-actions">
-            <a className="primary-button" href="#pricing">View Shared Hosting →</a>
-            <a className="footer-secondary" href="#domains">Search Domains</a>
-          </div>
+      <footer className="hmw-footer">
+        <div className="hmw-footer-command">
+          <div><div className="hmw-section-kicker hmw-kicker-green"><i /> HOSTMYWEB PRICE LOCK</div><h2>The price you see is the price you keep.</h2><p>No teaser hosting rate. No inflated renewal. No multi-year commitment just to get the number printed on the page.</p></div>
+          <div className="hmw-footer-actions"><a className="primary-button" href="#pricing">View Shared Hosting →</a><a className="hmw-outline-button hmw-outline-light" href="#domains">Search Domains</a></div>
         </div>
 
-        <div className="footer-brand-row">
-          <div className="footer-brand">
-            <a className="brand" href="#top"><span className="brand-mark"><i /><i /><i /></span><b>HostMyWeb</b></a>
-            <p>Shared web hosting, domains, email, website services, and connected infrastructure with pricing designed to stay understandable after checkout.</p>
-          </div>
-          <div className="footer-trust">
-            <span><b>PRICE LOCKED</b> Base hosting rate stays the same</span>
-            <span><b>NO TEASER RATES</b> The advertised price is the real price</span>
-            <span><b>SELF-SERVICE + HUMAN HELP</b> Use the account first; reach a person when needed</span>
-          </div>
+        <div className="hmw-footer-status">
+          <div className="hmw-footer-brand"><a className="brand" href="#top"><span className="brand-mark"><i /><i /><i /></span><span><b>HostMyWeb</b><small>HOSTING OPERATIONS</small></span></a><p>Shared hosting, domains, email, website services, and connected infrastructure with pricing designed to remain understandable after checkout.</p></div>
+          <div className="hmw-footer-telemetry"><article><small>PRICE LOCK</small><b>ACTIVE</b><span>Base hosting rate stays the same</span></article><article><small>TEASER RATES</small><b>NONE</b><span>The advertised hosting price is real</span></article><article><small>ACCOUNT CONTROL</small><b>ONLINE</b><span>Self-service with human help available</span></article></div>
         </div>
 
-        <div className="footer-link-grid">
-          <div>
-            <b>Hosting</b>
-            <a href="#pricing">Shared Web Hosting</a>
-            <a href="/signup?plan=starter">Starter Hosting</a>
-            <a href="/signup?plan=business">Business Hosting</a>
-            <a href="/signup?plan=pro">Pro Hosting</a>
-            <a href="/signup?plan=agency">Agency Hosting</a>
-            <a href="#products">Managed WordPress</a>
-          </div>
-          <div>
-            <b>Domains &amp; Email</b>
-            <a href="#domains">Domain Search</a>
-            <a href="#domains">Domain Pricing</a>
-            <a href="#products">Business Email</a>
-            <a href="#hosting-features">DNS Management</a>
-            <a href="#hosting-features">Email Controls</a>
-          </div>
-          <div>
-            <b>Hosting Features</b>
-            <a href="#hosting-features">SSL Certificates</a>
-            <a href="#hosting-features">CDN</a>
-            <a href="#hosting-features">Backups &amp; Restore</a>
-            <a href="#hosting-features">Malware Scanning</a>
-            <a href="#hosting-features">WAF &amp; DDoS Protection</a>
-            <a href="#hosting-features">SSH &amp; Git</a>
-          </div>
-          <div>
-            <b>Website Services</b>
-            <a href="#ai-builder">AI Website Builder</a>
-            <a href="#custom">Migration Tools</a>
-            <a href="#custom">Done-for-You Migration</a>
-            <a href="#custom">Custom Setup</a>
-            <a href="#custom">Multi-Site Moves</a>
-          </div>
-          <div>
-            <b>Ecosystem</b>
-            <a href="https://dogbreederos.com" target="_blank" rel="noreferrer">DogBreederOS</a>
-            <a href="https://dogbreederweb.site" target="_blank" rel="noreferrer">DogBreederWeb</a>
-            <a href="https://dogbreederdocs.online" target="_blank" rel="noreferrer">DogBreederDocs</a>
-            <a href="#ecosystem">Shared Architecture</a>
-            <a href="#solutions">Who We Serve</a>
-          </div>
-          <div>
-            <b>Account &amp; Support</b>
-            <a href="/account">Log In</a>
-            <a href="/signup">Create Account</a>
-            <a href="/account">Service Management</a>
-            <a href="/account">Support Tickets</a>
-            <a href="#support">Support</a>
-            <a href="#custom">Custom Help</a>
-          </div>
+        <div className="hmw-footer-links">
+          {footerColumns.map((column) => (
+            <div key={column.title}><b>{column.title}</b>{column.links.map(([label, href]) => <a href={href} key={label} target={href.startsWith("http") ? "_blank" : undefined} rel={href.startsWith("http") ? "noreferrer" : undefined}>{label}</a>)}</div>
+          ))}
         </div>
 
-        <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} HostMyWeb.co. All rights reserved.</span>
-          <div><b>Price Lock</b><i />No teaser hosting rates<i />Transparent renewals</div>
-        </div>
+        <div className="hmw-footer-bottom"><span>© {new Date().getFullYear()} HostMyWeb.co. All rights reserved.</span><div><b><i /> SYSTEM ONLINE</b><span>Price Lock active</span><span>No teaser hosting rates</span><span>Transparent renewals</span></div></div>
       </footer>
     </main>
   );
