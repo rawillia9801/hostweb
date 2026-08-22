@@ -1,0 +1,8 @@
+import type { Metadata } from "next";
+import { ProductHero, SiteFrame } from "@/components/hostmyweb-site-chrome";
+
+export const metadata: Metadata = { title: "Website Services", description: "HostMyWeb website creation, AI builder, WordPress, and migration services." };
+
+export default function WebsitesPage() {
+  return <SiteFrame><ProductHero eyebrow="Website Services" title="Build it, move it," accent="keep it online." description="Website services are separated from hosting so customers can understand whether they need infrastructure, a site-building tool, migration work, or all three." /><section className="hmw-product-shell"><div className="hmw-index-grid"><a className="hmw-index-link" href="/websites/ai-builder"><div><small>BUILD</small><h3>AI Website Builder</h3><p>Turn a business description into a structured website, refine it, connect a domain, and publish.</p></div><span>→</span></a><a className="hmw-index-link" href="/hosting/wordpress"><div><small>WORDPRESS</small><h3>Managed WordPress</h3><p>Use a WordPress-focused hosting and management path when WordPress is the platform you want.</p></div><span>→</span></a><a className="hmw-index-link" href="/websites/migration"><div><small>MOVE</small><h3>Website Migration</h3><p>Supported standard migrations are included; complex manual migration work is handled separately.</p></div><span>→</span></a><a className="hmw-index-link" href="/support"><div><small>CUSTOM</small><h3>Custom Website Help</h3><p>Use the support and services path when the project does not fit a standard automated workflow.</p></div><span>→</span></a></div></section></SiteFrame>;
+}
