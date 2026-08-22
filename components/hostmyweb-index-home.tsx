@@ -11,6 +11,17 @@ const included = [
   { icon: "∞", title: "Unlimited bandwidth", text: "Shared plans do not meter normal website traffic by a monthly bandwidth allowance." },
 ] as const;
 
+const moreProducts = [
+  { code: "WORDPRESS", title: "Managed WordPress", text: "WordPress-focused hosting with staging, management, backup, and developer workflows.", href: "/hosting/wordpress" },
+  { code: "PERFORMANCE", title: "Website Turbo", text: "High-frequency performance acceleration for demanding or traffic-sensitive websites.", href: "/products#performance" },
+  { code: "SECURITY", title: "Premium SSL", text: "Optional paid certificate products for customers who need more than standard included HTTPS.", href: "/products#performance" },
+  { code: "RECOVERY", title: "Timeline Backups Pro", text: "Extended snapshot-style recovery for customers who want a deeper backup history.", href: "/products#performance" },
+  { code: "EMAIL", title: "Mailbox Storage Upgrades", text: "Increase email capacity without forcing the website onto a larger hosting plan.", href: "/products#domains-email" },
+  { code: "SERVERS", title: "Managed Cloud", text: "Dedicated managed cloud resources for larger ecommerce, traffic, data, and application workloads.", href: "/hosting/cloud" },
+  { code: "DEVELOPER", title: "VPS Hosting", text: "Private virtual-server resources for custom applications and server-level control.", href: "/hosting/vps" },
+  { code: "SERVICES", title: "Website Care & Setup", text: "Migration, setup, recovery, maintenance, and custom infrastructure help when software alone is not enough.", href: "/products#websites" },
+] as const;
+
 export function HostMyWebIndexHome() {
   const starter = HOSTING_PLANS.starter;
 
@@ -24,18 +35,18 @@ export function HostMyWebIndexHome() {
 
       <section className="hmw-storefront-hero">
         <div className="hmw-storefront-copy">
-          <span className="hmw-storefront-kicker">WEB HOSTING FOR SMALL BUSINESS, CREATORS & GROWING SITES</span>
+          <span className="hmw-storefront-kicker">HOSTING, DOMAINS, EMAIL, SECURITY & WEBSITE SERVICES</span>
           <h1>Web hosting that stays <em>straightforward.</em></h1>
-          <p>Fast shared-cloud hosting with domains, business email, SSL, backups, developer tools, migration help, and a clear path to Managed Cloud or VPS when you outgrow shared hosting.</p>
+          <p>Fast shared-cloud hosting backed by a broader catalog: domains, business email, WordPress, SSL, backups, performance upgrades, website tools, Managed Cloud, VPS, migrations, and hands-on services when you need them.</p>
           <div className="hmw-hero-checks">
             <span>✓ No promotional renewal jump</span>
             <span>✓ Unlimited bandwidth</span>
             <span>✓ SSL + global CDN included</span>
-            <span>✓ SSH + Git available</span>
+            <span>✓ Cloud + VPS upgrade path</span>
           </div>
           <div className="hmw-actions hmw-storefront-actions">
             <a className="hmw-button" href="/hosting/shared">View Hosting Plans</a>
-            <a className="hmw-button secondary" href="/domains">Find a Domain</a>
+            <a className="hmw-button secondary" href="/products">Browse All Products</a>
           </div>
           <small className="hmw-hero-fineprint">Monthly billing. No multi-year prepayment required to receive the advertised shared-hosting rate.</small>
         </div>
@@ -59,7 +70,7 @@ export function HostMyWebIndexHome() {
 
       <section className="hmw-trust-row" aria-label="HostMyWeb hosting highlights">
         <div><b>$0</b><span>renewal-price jump</span></div>
-        <div><b>4</b><span>shared hosting plans</span></div>
+        <div><b>20+</b><span>products & service paths</span></div>
         <div><b>10–100 GB</b><span>published SSD webspace</span></div>
         <div><b>Cloud + VPS</b><span>upgrade path</span></div>
       </section>
@@ -95,6 +106,27 @@ export function HostMyWebIndexHome() {
               </article>
             );
           })}
+        </div>
+      </section>
+
+      <section className="hmw-section hmw-marketplace-preview">
+        <div className="hmw-section-head">
+          <div>
+            <span className="hmw-storefront-kicker">MORE HOSTMYWEB PRODUCTS</span>
+            <h2>Hosting is the starting point, not the whole store.</h2>
+            <p>Add performance, recovery, security, email capacity, servers, WordPress, and hands-on website services from the same company.</p>
+          </div>
+          <a className="hmw-text-link" href="/products">See the full product catalog →</a>
+        </div>
+        <div className="hmw-marketplace-preview-grid">
+          {moreProducts.map((product) => (
+            <a className="hmw-marketplace-preview-card" href={product.href} key={product.title}>
+              <small>{product.code}</small>
+              <h3>{product.title}</h3>
+              <p>{product.text}</p>
+              <b>Explore →</b>
+            </a>
+          ))}
         </div>
       </section>
 
@@ -134,8 +166,8 @@ export function HostMyWebIndexHome() {
       </section>
 
       <section className="hmw-bottom-cta">
-        <div><span>READY TO GET ONLINE?</span><h2>Hosting starts at $7.99/month.</h2><p>Choose a shared plan, search for a domain, or ask for help selecting the right setup.</p></div>
-        <div className="hmw-actions"><a className="hmw-button" href="/hosting/shared">Choose Hosting</a><a className="hmw-button secondary" href="/support">Talk to HostMyWeb</a></div>
+        <div><span>HOSTING, DOMAINS, EMAIL & MORE</span><h2>Start with what you need today.</h2><p>Choose hosting, search a domain, browse add-ons, or ask HostMyWeb to configure a larger workload.</p></div>
+        <div className="hmw-actions"><a className="hmw-button" href="/products">Browse Products</a><a className="hmw-button secondary" href="/support">Talk to HostMyWeb</a></div>
       </section>
     </SiteFrame>
   );
