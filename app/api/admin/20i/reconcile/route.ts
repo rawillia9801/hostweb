@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireHostMyWebAdmin } from "@/lib/hostmyweb-admin";
 import { HOSTING_PLANS } from "@/lib/hosting-plans";
 import { supabaseRpc } from "@/lib/supabase-rpc";
+import { applyConfiguredPlanBindings } from "@/lib/twentyi-plan-automation";
 import { readTwentyIInventory } from "@/lib/twentyi-server";
 
 export const dynamic = "force-dynamic";
@@ -18,7 +19,7 @@ async function reconcile(request: NextRequest) {
   if (!admin) return NextResponse.json({ error: "Administrator access required." }, { status: 403 });
 
   try {
-    const inventory = await readTwentyIInventory();
+    const inventory = await applyConfiguredPlanBindings(await readTwentyIInventory());
     const results: Array<{
       providerRef: string;
       domain: string | null;
