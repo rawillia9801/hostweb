@@ -9,18 +9,19 @@ import "./resource-transparency.css";
 import "./price-transparency.css";
 import "./commercial-site.css";
 import "./hosting-storefront.css";
+import "./product-marketplace.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hostmyweb.co"),
   title: {
-    default: "HostMyWeb | Web Hosting, Domains, Email, Cloud & VPS",
+    default: "HostMyWeb | Hosting, Domains, Email, Cloud, VPS & Website Services",
     template: "%s | HostMyWeb",
   },
-  description: "HostMyWeb provides shared cloud hosting, managed WordPress, managed cloud, VPS hosting, domains, business email, website services, security tools, migration, and customer account services with transparent pricing.",
+  description: "HostMyWeb provides shared cloud hosting, managed WordPress, managed cloud, VPS hosting, domains, business email, premium SSL, backup and performance add-ons, migration, website tools, and customer services with transparent pricing.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "HostMyWeb | Real Web Hosting Without the Renewal Trap",
-    description: "Web hosting, domains, email, website services, cloud and VPS infrastructure with transparent pricing and published resource limits.",
+    title: "HostMyWeb | Hosting and Website Services Without the Renewal Trap",
+    description: "Hosting, domains, email, WordPress, cloud, VPS, security, backups, performance products, migration, and website services with transparent pricing.",
     url: "https://hostmyweb.co",
     siteName: "HostMyWeb",
     type: "website",
