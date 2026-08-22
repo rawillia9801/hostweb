@@ -8,6 +8,7 @@ import "./scale-path.css";
 import "./resource-transparency.css";
 import "./price-transparency.css";
 import "./commercial-site.css";
+import "./hosting-storefront.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hostmyweb.co"),
