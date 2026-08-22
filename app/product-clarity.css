@@ -1,6 +1,7 @@
 /* HostMyWeb product-communication and switching refinements */
 
 .hmw-products-clarified{
+  display:block;
   background:
     radial-gradient(circle at 86% 10%,rgba(50,142,221,.08),transparent 30%),
     linear-gradient(180deg,#f7fafc 0%,#ffffff 100%);
@@ -135,10 +136,13 @@
 
 .hmw-product-grid-clarified{
   max-width:1500px;
+  margin-left:auto;
+  margin-right:auto;
   grid-template-columns:repeat(5,minmax(0,1fr));
 }
 
 .hmw-product-grid-clarified article{
+  min-width:0;
   min-height:315px;
 }
 
