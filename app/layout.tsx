@@ -3,6 +3,7 @@ import "./globals.css";
 import "./storefront.css";
 import "./architectural.css";
 import "./hosting-refresh.css";
+import "./product-clarity.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hostmyweb.co"),
