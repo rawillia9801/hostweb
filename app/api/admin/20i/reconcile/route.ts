@@ -24,6 +24,7 @@ async function reconcile(request: NextRequest) {
       providerRef: string;
       domain: string | null;
       plan: string | null;
+      status: string;
       customerEmail: string | null;
       linkedUserId: string | null;
       serviceId: string | null;
@@ -32,7 +33,7 @@ async function reconcile(request: NextRequest) {
 
     for (const service of inventory) {
       try {
-        const registered = await supabaseRpc<RegistrationResult>("admin_register_hostmyweb_external_service", {
+        const registered = await supabaseRpc<RegistrationResult>("admin_sync_hostmyweb_external_service", {
           p_email: service.customer_email,
           p_service_type: service.service_type,
           p_plan_slug: service.plan_slug,
@@ -40,6 +41,7 @@ async function reconcile(request: NextRequest) {
           p_domain_name: service.domain_name,
           p_provider_ref: service.provider_ref,
           p_package_type_ref: service.package_type_ref,
+          p_status: service.status,
           p_metadata: {
             ...service.metadata,
             source: "20i_inventory_reconcile",
@@ -53,6 +55,7 @@ async function reconcile(request: NextRequest) {
           providerRef: service.provider_ref,
           domain: service.domain_name,
           plan: service.plan_slug,
+          status: service.status,
           customerEmail: service.customer_email,
           linkedUserId: registered.user_id || null,
           serviceId: registered.service_id || null,
@@ -62,6 +65,7 @@ async function reconcile(request: NextRequest) {
           providerRef: service.provider_ref,
           domain: service.domain_name,
           plan: service.plan_slug,
+          status: service.status,
           customerEmail: service.customer_email,
           linkedUserId: null,
           serviceId: null,
