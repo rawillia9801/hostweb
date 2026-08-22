@@ -1,0 +1,141 @@
+/* HostMyWeb public storefront — intentionally reads like a web-hosting company, not an admin console. */
+.hmw-site{background:#f7f9fc;color:#14243a}
+
+/* Public header */
+.hmw-top{position:sticky;top:0;z-index:50;padding:15px max(4vw,28px);background:rgba(255,255,255,.97);border-bottom:1px solid #e4eaf0;box-shadow:0 4px 18px rgba(21,43,67,.04);backdrop-filter:blur(12px)}
+.hmw-top .brand{color:#14243a}
+.hmw-top .brand b{font-size:19px;letter-spacing:-.02em}
+.hmw-top .brand small{color:#6f8193}
+.hmw-logo i{background:#1b79d1}
+.hmw-nav a,.hmw-top-actions a{color:#43566b;font-size:12px}
+.hmw-nav a:hover,.hmw-top-actions a:hover{color:#1268b6}
+.hmw-top-actions .cta{background:#1477cf;color:#fff;border-radius:8px;padding:10px 16px;box-shadow:0 6px 14px rgba(20,119,207,.18)}
+
+/* Promotional strip */
+.hmw-promo-bar{display:flex;align-items:center;justify-content:center;gap:14px;min-height:40px;padding:8px 20px;background:#0d3155;color:#fff;font-size:12px}
+.hmw-promo-bar span{padding:4px 8px;border:1px solid rgba(255,255,255,.28);border-radius:999px;font-size:9px;font-weight:900;letter-spacing:.09em}
+.hmw-promo-bar b{font-weight:800}
+.hmw-promo-bar a{color:#fff;font-weight:900;text-decoration:underline;text-underline-offset:3px}
+
+/* Hero */
+.hmw-storefront-hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(350px,.72fr);gap:64px;align-items:center;padding:76px max(6vw,48px) 74px;background:linear-gradient(120deg,#f8fbff 0%,#eef6ff 62%,#f7fbff 100%);border-bottom:1px solid #dde7f1}
+.hmw-storefront-copy{max-width:820px}
+.hmw-storefront-kicker{display:inline-block;color:#146dbd;font-size:10px;font-weight:950;letter-spacing:.13em}
+.hmw-storefront-kicker.light{color:#b9dcff}
+.hmw-storefront-copy h1{max-width:800px;margin:16px 0 18px;font-size:clamp(44px,5.5vw,72px);line-height:1.01;letter-spacing:-.052em;color:#11253c}
+.hmw-storefront-copy h1 em{font-style:normal;color:#1477cf}
+.hmw-storefront-copy>p{max-width:760px;margin:0;color:#50677d;font-size:18px;line-height:1.7}
+.hmw-hero-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 24px;margin-top:26px;color:#263f58;font-size:13px;font-weight:800}
+.hmw-storefront-actions{margin-top:30px}
+.hmw-storefront-actions .hmw-button.secondary{color:#17486f;border-color:#bdd1e2;background:#fff}
+.hmw-hero-fineprint{display:block;margin-top:14px;color:#74879a;font-size:10px;line-height:1.5}
+
+.hmw-hero-offer{position:relative;padding:30px;border:1px solid #d6e3ee;border-radius:18px;background:#fff;box-shadow:0 24px 60px rgba(21,65,104,.13)}
+.hmw-offer-topline{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-bottom:18px;border-bottom:1px solid #e7edf2;color:#566d81;font-size:10px;font-weight:950;letter-spacing:.09em}
+.hmw-offer-topline b{padding:6px 8px;border-radius:7px;background:#eaf7f1;color:#08764f;font-size:9px}
+.hmw-offer-price{display:flex;align-items:flex-start;margin-top:22px;color:#102b47;font-size:64px;line-height:1;font-weight:950;letter-spacing:-.055em}
+.hmw-offer-price sup{margin-top:9px;margin-right:2px;font-size:25px}
+.hmw-offer-price span{align-self:flex-end;margin:0 0 8px 6px;color:#6e8293;font-size:13px;font-weight:800;letter-spacing:0}
+.hmw-offer-renewal{margin:10px 0 18px;padding:11px 12px;border-radius:9px;background:#f1f7fc;color:#3d5c75;font-size:11px;line-height:1.5}
+.hmw-hero-offer ul{list-style:none;margin:0;padding:0}
+.hmw-hero-offer li{padding:9px 0;border-bottom:1px solid #edf1f4;color:#465d71;font-size:12px}
+.hmw-hero-offer li:last-child{border-bottom:0}
+.hmw-offer-cta{display:flex;justify-content:center;align-items:center;min-height:48px;margin-top:22px;border-radius:9px;background:#1477cf;color:#fff;text-decoration:none;font-size:12px;font-weight:950;box-shadow:0 8px 18px rgba(20,119,207,.2)}
+.hmw-offer-link{display:block;margin-top:13px;text-align:center;color:#1768aa;text-decoration:none;font-size:10px;font-weight:900}
+
+/* Trust / proof strip */
+.hmw-trust-row{display:grid;grid-template-columns:repeat(4,1fr);padding:0 max(6vw,48px);background:#fff;border-bottom:1px solid #e3e9ef}
+.hmw-trust-row div{padding:25px 22px;border-right:1px solid #e7edf2;text-align:center}
+.hmw-trust-row div:last-child{border-right:0}
+.hmw-trust-row b{display:block;color:#14324e;font-size:18px}
+.hmw-trust-row span{display:block;margin-top:4px;color:#778a9b;font-size:10px}
+
+/* Shared plan cards */
+.hmw-plans-home{background:#fff}
+.hmw-centered-head{display:block;text-align:center}
+.hmw-centered-head>div{margin:0 auto;max-width:760px}
+.hmw-centered-head h2{color:#14283f}
+.hmw-home-plan-grid{align-items:stretch;margin-top:10px}
+.hmw-home-plan{position:relative;display:flex;flex-direction:column;padding:28px 24px;border-radius:14px;box-shadow:0 8px 26px rgba(20,54,84,.05)}
+.hmw-home-plan.featured{border:2px solid #1477cf;box-shadow:0 14px 34px rgba(20,119,207,.12)}
+.hmw-plan-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);padding:6px 11px;border-radius:999px;background:#1477cf;color:#fff;font-size:8px;font-weight:950;letter-spacing:.1em;white-space:nowrap}
+.hmw-home-plan h3{margin-top:4px;font-size:24px;color:#153149}
+.hmw-plan-for{min-height:42px;margin:3px 0 18px;color:#718496;font-size:10px;line-height:1.55}
+.hmw-home-plan .hmw-plan-price-real{color:#102d49}
+.hmw-same-renewal{display:block;margin:4px 0 14px;color:#08754e;font-size:9px;font-weight:900}
+.hmw-home-plan ul{flex:1}
+.hmw-home-plan .hmw-button{background:#1477cf;color:#fff}
+
+/* Domain search */
+.hmw-domain-home{display:grid;grid-template-columns:minmax(0,.8fr) minmax(420px,1.2fr);gap:54px;align-items:center;padding:64px max(6vw,48px);background:#edf5fb;border-top:1px solid #dbe7f0;border-bottom:1px solid #dbe7f0}
+.hmw-domain-home-copy h2{margin:10px 0 12px;color:#132d46;font-size:clamp(32px,4vw,47px);letter-spacing:-.04em}
+.hmw-domain-home-copy>p{margin:0;color:#60768a;line-height:1.7}
+.hmw-domain-prices{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.hmw-domain-prices span{padding:8px 10px;border:1px solid #cfdeea;border-radius:8px;background:#fff;color:#63788b;font-size:10px}
+.hmw-domain-prices b{color:#173a58}
+.hmw-domain-home-search .domain-search-card{margin:0;max-width:none;background:#fff;border:1px solid #d5e1eb;box-shadow:0 16px 36px rgba(18,57,91,.08)}
+
+/* Included features */
+.hmw-included-home{background:#f8fafc}
+.hmw-included-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:1180px;margin:0 auto}
+.hmw-included-grid article{display:grid;grid-template-columns:42px 1fr;gap:14px;padding:22px;border:1px solid #dde5ec;border-radius:13px;background:#fff}
+.hmw-included-grid article>span{display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:#eaf4fc;color:#146fbd;font-size:19px;font-weight:900}
+.hmw-included-grid h3{margin:2px 0 6px;color:#17324b;font-size:16px}
+.hmw-included-grid p{margin:0;color:#6c8092;font-size:10px;line-height:1.65}
+
+/* Migration */
+.hmw-migration-band{display:flex;align-items:center;justify-content:space-between;gap:40px;padding:50px max(6vw,48px);background:linear-gradient(120deg,#123f6b,#0d3155);color:#fff}
+.hmw-migration-band>div{max-width:780px}
+.hmw-migration-band h2{margin:8px 0 8px;font-size:36px;letter-spacing:-.035em}
+.hmw-migration-band p{margin:0;color:#c3d4e2;line-height:1.7}
+.hmw-migration-band .hmw-button{flex:0 0 auto;background:#fff;color:#123f6b}
+
+/* Scale path */
+.hmw-scale-home{background:#fff}
+.hmw-text-link{color:#156cb4;text-decoration:none;font-size:11px;font-weight:900}
+.hmw-scale-cards-home{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.hmw-scale-cards-home article{display:flex;min-height:250px;flex-direction:column;padding:25px;border:1px solid #dce5ec;border-radius:14px;background:#fff}
+.hmw-scale-cards-home small{color:#6c9fc9;font-size:9px;font-weight:950;letter-spacing:.12em}
+.hmw-scale-cards-home h3{margin:10px 0 8px;color:#17334d;font-size:22px}
+.hmw-scale-cards-home p{margin:0;color:#6c8092;font-size:11px;line-height:1.65}
+.hmw-scale-cards-home b{margin-top:auto;padding-top:22px;color:#17334d;font-size:12px}
+.hmw-scale-cards-home a{margin-top:10px;color:#156fb9;text-decoration:none;font-size:10px;font-weight:900}
+
+/* Bottom CTA */
+.hmw-bottom-cta{display:flex;align-items:center;justify-content:space-between;gap:40px;padding:54px max(6vw,48px);background:#eef5fb;border-top:1px solid #dce7ef}
+.hmw-bottom-cta span{font-size:9px;font-weight:950;letter-spacing:.12em;color:#1470bf}
+.hmw-bottom-cta h2{margin:7px 0 5px;color:#14304a;font-size:34px;letter-spacing:-.035em}
+.hmw-bottom-cta p{margin:0;color:#667b8d}
+.hmw-bottom-cta .hmw-button.secondary{border-color:#bfd2e1;background:#fff;color:#174c75}
+
+/* Footer: less control-panel, more established hosting-company footer. */
+.hmw-footer-real{background:#0a2138;color:#9fb4c5}
+.hmw-footer-grid h4{font-size:12px}
+.hmw-footer-grid a{font-size:11px}
+.hmw-footer-grid p{font-size:11px}
+
+@media(max-width:1100px){
+  .hmw-storefront-hero{grid-template-columns:1fr;gap:38px}
+  .hmw-hero-offer{max-width:620px}
+  .hmw-domain-home{grid-template-columns:1fr}
+  .hmw-included-grid{grid-template-columns:repeat(2,1fr)}
+  .hmw-scale-cards-home{grid-template-columns:1fr}
+}
+
+@media(max-width:760px){
+  .hmw-promo-bar{justify-content:flex-start;overflow-x:auto;white-space:nowrap;font-size:10px}
+  .hmw-promo-bar span{display:none}
+  .hmw-storefront-hero,.hmw-domain-home,.hmw-migration-band,.hmw-bottom-cta{padding-left:20px;padding-right:20px}
+  .hmw-storefront-hero{padding-top:48px;padding-bottom:48px}
+  .hmw-storefront-copy h1{font-size:42px}
+  .hmw-hero-checks{grid-template-columns:1fr}
+  .hmw-hero-offer{padding:22px}
+  .hmw-offer-price{font-size:54px}
+  .hmw-trust-row{grid-template-columns:1fr 1fr;padding:0}
+  .hmw-trust-row div:nth-child(2){border-right:0}
+  .hmw-trust-row div:nth-child(-n+2){border-bottom:1px solid #e7edf2}
+  .hmw-included-grid{grid-template-columns:1fr}
+  .hmw-domain-home-search{min-width:0}
+  .hmw-migration-band,.hmw-bottom-cta{display:block}
+  .hmw-migration-band .hmw-button{margin-top:24px}
+}
