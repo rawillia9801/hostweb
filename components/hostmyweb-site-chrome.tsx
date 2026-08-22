@@ -9,6 +9,7 @@ export function SiteHeader() {
       </a>
       <nav className="hmw-nav" aria-label="Main navigation">
         <a href="/hosting">Hosting</a>
+        <a href="/products">Products</a>
         <a href="/domains">Domains</a>
         <a href="/email">Email</a>
         <a href="/websites">Websites</a>
@@ -26,11 +27,11 @@ export function SiteFooter() {
       <div className="hmw-footer-grid">
         <div>
           <a className="brand" href="/" style={{ color: "white", textDecoration: "none" }}><span className="hmw-logo"><i /><i /><i /></span><span><b>HostMyWeb</b><small>WEB HOSTING & INFRASTRUCTURE</small></span></a>
-          <p>Real hosting, domains, email, website tools, and scalable infrastructure with transparent pricing and customer account controls.</p>
+          <p>Hosting, domains, email, website tools, performance products, security, backups, and scalable infrastructure with transparent pricing and customer account controls.</p>
         </div>
         <div><h4>Hosting</h4><a href="/hosting/shared">Shared Cloud</a><a href="/hosting/wordpress">Managed WordPress</a><a href="/hosting/cloud">Managed Cloud</a><a href="/hosting/vps">VPS Hosting</a></div>
-        <div><h4>Domains & Email</h4><a href="/domains">Domain Search</a><a href="/domains#pricing">Domain Pricing</a><a href="/domains#transfer">Transfers</a><a href="/email">Business Email</a></div>
-        <div><h4>Website Services</h4><a href="/websites">Website Services</a><a href="/websites/ai-builder">AI Website Builder</a><a href="/websites/migration">Website Migration</a><a href="/security">Security & Backups</a></div>
+        <div><h4>Products & Add-ons</h4><a href="/products">All Products</a><a href="/products#performance">Website Turbo</a><a href="/products#performance">Premium SSL</a><a href="/products#performance">Timeline Backups</a><a href="/products#domains-email">Mailbox Upgrades</a></div>
+        <div><h4>Domains & Websites</h4><a href="/domains">Domain Search</a><a href="/domains#transfer">Domain Transfers</a><a href="/email">Business Email</a><a href="/websites/ai-builder">AI Website Builder</a><a href="/websites/migration">Website Migration</a></div>
         <div><h4>Customer</h4><a href="/account">Account</a><a href="/signup">Create Account</a><a href="/support">Support</a><a href="/support/urgent">Urgent Hosting Issue</a></div>
       </div>
       <div className="hmw-footer-bottom">© {new Date().getFullYear()} HostMyWeb.co. All rights reserved. Price Lock applies to the base shared-hosting subscription while the same plan remains continuously active; taxes, domains, optional add-ons, usage charges, and plan changes are separate.</div>
