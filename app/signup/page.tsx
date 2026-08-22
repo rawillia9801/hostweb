@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { CustomerAccount } from "@/components/customer-account";
-import { getHostShopCheckoutUrl, isHostingPlanSlug } from "@/lib/hosting-plans";
+import { getEffectiveHostShopCheckoutUrl } from "@/lib/hosting-plan-bindings";
+import { isHostingPlanSlug } from "@/lib/hosting-plans";
 
 export const metadata: Metadata = {
   title: "Create Account",
@@ -20,13 +21,13 @@ export default async function SignupPage({ searchParams }: SignupPageProps) {
   const plan = params.plan?.trim().toLowerCase();
 
   if (isHostingPlanSlug(plan)) {
-    const checkoutUrl = getHostShopCheckoutUrl(plan);
+    const checkoutUrl = await getEffectiveHostShopCheckoutUrl(plan);
     if (checkoutUrl) redirect(checkoutUrl);
   }
 
   // Plans without a configured HostShop product fall back to the HostMyWeb
-  // account flow instead of guessing a provider product ID. As soon as a
-  // checkout URL is configured, the same public plan link begins redirecting
-  // to the real HostShop checkout automatically.
+  // account flow instead of guessing a provider product ID. Saving a checkout
+  // URL in the infrastructure plan bindings activates the existing public plan
+  // link immediately, with no source-code change required.
   return <CustomerAccount initialMode="signup" />;
 }
