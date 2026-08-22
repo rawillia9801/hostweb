@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 import "./storefront.css";
 import "./architectural.css";
@@ -29,5 +30,12 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body>{children}</body></html>;
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <Script src="https://dogbreederos.com/api/public/support/widget?site=hostmyweb" strategy="afterInteractive" />
+      </body>
+    </html>
+  );
 }
