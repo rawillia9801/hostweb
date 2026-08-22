@@ -6,6 +6,7 @@ import "./hosting-refresh.css";
 import "./product-clarity.css";
 import "./scale-path.css";
 import "./resource-transparency.css";
+import "./price-transparency.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hostmyweb.co"),
