@@ -68,19 +68,23 @@ export function ContactForm() {
           <span>What do you need?</span>
           <select name="interest" defaultValue="general">
             <option value="general">Help me choose</option>
-            <option value="hosting">Managed hosting</option>
+            <option value="shared_hosting">Shared web hosting</option>
+            <option value="managed_cloud">Managed cloud hosting</option>
+            <option value="vps">Virtual private server (VPS)</option>
             <option value="domains">Domains &amp; DNS</option>
             <option value="email">Business email</option>
-            <option value="websites">Website hosting / publishing</option>
+            <option value="wordpress">Managed WordPress</option>
+            <option value="websites">Website builder / publishing</option>
             <option value="migration">Website migration</option>
             <option value="agency">Agency / multi-site hosting</option>
+            <option value="custom">Custom infrastructure</option>
             <option value="breeder">Breeder business infrastructure</option>
           </select>
         </label>
       </div>
       <label>
-        <span>Tell us what you’re building</span>
-        <textarea name="message" maxLength={2000} rows={5} placeholder="Current website, domains, email, number of sites, or anything else that would help us understand the setup." />
+        <span>Tell us what you’re building or moving</span>
+        <textarea name="message" maxLength={2000} rows={5} placeholder="Current website, expected traffic, domains, email, number of sites, application stack, server requirements, or anything else that would help us understand the setup." />
       </label>
       <button type="submit" disabled={status === "sending"}>{status === "sending" ? "Sending…" : "Start your setup"}<span>→</span></button>
       {message && <p className={`form-status ${status}`} role="status">{message}</p>}
