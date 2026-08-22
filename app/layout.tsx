@@ -7,20 +7,19 @@ import "./product-clarity.css";
 import "./scale-path.css";
 import "./resource-transparency.css";
 import "./price-transparency.css";
+import "./commercial-site.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hostmyweb.co"),
   title: {
-    default: "HostMyWeb | Autoscaling Web Hosting, Cloud, VPS, Domains & Email",
+    default: "HostMyWeb | Web Hosting, Domains, Email, Cloud & VPS",
     template: "%s | HostMyWeb",
   },
-  description: "Autoscaling shared-cloud web hosting with published SSD, website, mailbox and database limits, SSH and Git access, included standard migration, transparent Price Lock pricing, domains, email, managed cloud and VPS scale paths.",
-  alternates: {
-    canonical: "/",
-  },
+  description: "HostMyWeb provides shared cloud hosting, managed WordPress, managed cloud, VPS hosting, domains, business email, website services, security tools, migration, and customer account services with transparent pricing.",
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "HostMyWeb | Hosting Without the Renewal Trap",
-    description: "Autoscaling shared-cloud hosting with transparent renewals, published plan resources, included standard migration, global delivery, domains, email, and a clear path into managed cloud and VPS infrastructure.",
+    title: "HostMyWeb | Real Web Hosting Without the Renewal Trap",
+    description: "Web hosting, domains, email, website services, cloud and VPS infrastructure with transparent pricing and published resource limits.",
     url: "https://hostmyweb.co",
     siteName: "HostMyWeb",
     type: "website",
