@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 
 const HOSTMYWEB_MONTHLY = 7.99;
 const HORIZON_MONTHS = 24;
+const MAX_TERM_MONTHS = 120;
 
 function money(value: number) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value);
@@ -17,7 +18,7 @@ function cleanNumber(value: string, fallback: number) {
 function cleanMonths(value: string, fallback: number) {
   const parsed = Number.parseInt(value, 10);
   if (!Number.isFinite(parsed)) return fallback;
-  return Math.min(HORIZON_MONTHS, Math.max(1, parsed));
+  return Math.min(MAX_TERM_MONTHS, Math.max(1, parsed));
 }
 
 export function TrueCostCheck() {
@@ -32,7 +33,8 @@ export function TrueCostCheck() {
     const renewal = cleanNumber(renewalRate, intro);
     const prepaid = cleanMonths(prepaidMonths, 1);
 
-    const competitorTotal = intro * Math.min(promo, HORIZON_MONTHS) + renewal * Math.max(0, HORIZON_MONTHS - promo);
+    const promoMonthsInsideWindow = Math.min(promo, HORIZON_MONTHS);
+    const competitorTotal = intro * promoMonthsInsideWindow + renewal * Math.max(0, HORIZON_MONTHS - promoMonthsInsideWindow);
     const competitorDueToday = intro * prepaid;
     const hostMyWebTotal = HOSTMYWEB_MONTHLY * HORIZON_MONTHS;
     const difference = competitorTotal - hostMyWebTotal;
