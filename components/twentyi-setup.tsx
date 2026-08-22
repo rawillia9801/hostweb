@@ -101,11 +101,10 @@ async function rpc<T>(name: string, body: unknown, token: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-function apiHeaders(token: string, json = false) {
-  return {
-    Authorization: `Bearer ${token}`,
-    ...(json ? { "Content-Type": "application/json" } : {}),
-  };
+function apiHeaders(token: string, json = false): Record<string, string> {
+  const headers: Record<string, string> = { Authorization: `Bearer ${token}` };
+  if (json) headers["Content-Type"] = "application/json";
+  return headers;
 }
 
 export function TwentyISetup() {
