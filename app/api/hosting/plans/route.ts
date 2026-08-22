@@ -1,12 +1,17 @@
 import { NextResponse } from "next/server";
-import { HOSTING_PLANS, HOSTING_PLAN_SLUGS, hostingPlanOperationalState } from "@/lib/hosting-plans";
+import { getEffectiveHostShopCheckoutUrl, getEffectivePackageTypeRef } from "@/lib/hosting-plan-bindings";
+import { HOSTING_PLANS, HOSTING_PLAN_SLUGS } from "@/lib/hosting-plans";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const plans = HOSTING_PLAN_SLUGS.map((slug) => {
-    const state = hostingPlanOperationalState(slug);
+  const plans = await Promise.all(HOSTING_PLAN_SLUGS.map(async (slug) => {
     const plan = HOSTING_PLANS[slug];
+    const [checkoutUrl, packageTypeRef] = await Promise.all([
+      getEffectiveHostShopCheckoutUrl(slug),
+      getEffectivePackageTypeRef(slug),
+    ]);
+
     return {
       slug,
       name: plan.name,
@@ -22,10 +27,11 @@ export async function GET() {
         ssh: true,
         git: true,
       },
-      checkoutConfigured: state.checkoutConfigured,
-      packageTypeConfigured: state.packageTypeConfigured,
+      checkoutConfigured: Boolean(checkoutUrl),
+      packageTypeConfigured: Boolean(packageTypeRef),
+      operational: Boolean(checkoutUrl && packageTypeRef),
     };
-  });
+  }));
 
   return NextResponse.json({
     billingModel: "monthly",
