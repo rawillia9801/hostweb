@@ -74,6 +74,7 @@ export const HOSTING_PLANS: Record<HostingPlanSlug, HostingPlanDefinition> = {
 const DEFAULT_HOSTSHOP_URLS: Partial<Record<HostingPlanSlug, string>> = {
   starter: "https://cp.hostmyweb.co/domain-required?p=300451-1-dfw&t=1",
   business: "https://cp.hostmyweb.co/domain-required?p=300471-1-dfw&t=1",
+  pro: "https://cp.hostmyweb.co/domain-required?p=301533-1-dfw&t=1",
 };
 
 const HOSTSHOP_ENV_KEYS: Record<HostingPlanSlug, string> = {
