@@ -10,6 +10,8 @@ import "./price-transparency.css";
 import "./commercial-site.css";
 import "./hosting-storefront.css";
 import "./product-marketplace.css";
+import "./homepage-refresh.css";
+import "./product-detail-refresh.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hostmyweb.co"),
