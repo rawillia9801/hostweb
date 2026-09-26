@@ -4,12 +4,30 @@ export const dynamic = "force-dynamic";
 
 type UnknownRecord = Record<string, unknown>;
 type AvailabilityResult = { domain: string; available: boolean; source: "reseller" | "registry" };
+type DomainOffer = AvailabilityResult & {
+  price?: number;
+  renewalPrice?: number;
+  transferPrice?: number;
+  currency?: string;
+  checkoutUrl: string;
+};
 
-const RETAIL_DOMAIN_PRICES: Record<string, number> = { com: 17.99, org: 17.99, net: 19.99, us: 14.99 };
+const RETAIL_DOMAIN_PRICES: Record<string, { registration: number; renewal: number; transfer: number }> = {
+  com: { registration: 17.99, renewal: 17.99, transfer: 17.99 },
+  org: { registration: 17.99, renewal: 17.99, transfer: 17.99 },
+  net: { registration: 19.99, renewal: 19.99, transfer: 19.99 },
+  us: { registration: 14.99, renewal: 14.99, transfer: 14.99 },
+  co: { registration: 29.99, renewal: 29.99, transfer: 29.99 },
+  io: { registration: 49.99, renewal: 49.99, transfer: 49.99 },
+  info: { registration: 24.99, renewal: 24.99, transfer: 24.99 },
+  biz: { registration: 24.99, renewal: 24.99, transfer: 24.99 },
+};
+
+const SUGGESTION_TLDS = ["com", "net", "org", "us", "co", "io"];
 
 function normalizeDomain(input: string) {
   let value = input.trim().toLowerCase();
-  value = value.replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0];
+  value = value.replace(/^https?:\/\//, "").replace(/^www\./, "").split("/")[0].split("?")[0].split("#")[0];
   if (!value.includes(".")) value = `${value}.com`;
   return value;
 }
@@ -22,10 +40,21 @@ function isValidDomain(domain: string) {
   return labels.every((label) => label.length > 0 && label.length <= 63 && !label.startsWith("-") && !label.endsWith("-"));
 }
 
+function getBaseName(domain: string) {
+  return domain.split(".")[0] || domain;
+}
+
 function retailPricing(domain: string) {
   const tld = domain.split(".").pop() || "";
-  const price = RETAIL_DOMAIN_PRICES[tld];
-  return typeof price === "number" ? { price, renewalPrice: price, currency: "USD" } : {};
+  const pricing = RETAIL_DOMAIN_PRICES[tld];
+  return pricing
+    ? { price: pricing.registration, renewalPrice: pricing.renewal, transferPrice: pricing.transfer, currency: "USD" }
+    : {};
+}
+
+function hostShopDomainUrl(domain: string) {
+  const base = (process.env.HOSTMYWEB_HOSTSHOP_BASE_URL || "https://cp.hostmyweb.co").replace(/\/$/, "");
+  return `${base}/domain-search?domain=${encodeURIComponent(domain)}`;
 }
 
 function asRecord(value: unknown): UnknownRecord | null {
@@ -94,13 +123,19 @@ async function searchTwentyI(domain: string): Promise<AvailabilityResult | null>
       headers: { Accept: "application/json", Authorization: `Bearer ${bearer}` },
       signal: AbortSignal.timeout(8000),
     });
-    if (!response.ok) { console.error("Reseller domain search returned a non-success status", response.status); return null; }
+    if (!response.ok) {
+      console.error("20i domain search returned a non-success status", response.status);
+      return null;
+    }
     const payload: unknown = await response.json();
     const available = parseTwentyIAvailability(payload, domain);
-    if (available === null) { console.error("Reseller domain search returned an unrecognized response shape"); return null; }
+    if (available === null) {
+      console.error("20i domain search returned an unrecognized response shape");
+      return null;
+    }
     return { domain, available, source: "reseller" };
   } catch (error) {
-    console.error("Reseller domain search failed", error instanceof Error ? error.message : "unknown error");
+    console.error("20i domain search failed", error instanceof Error ? error.message : "unknown error");
     return null;
   }
 }
@@ -117,16 +152,49 @@ async function searchRegistry(domain: string): Promise<AvailabilityResult> {
   throw new Error("Registry lookup did not return a usable result.");
 }
 
+async function lookup(domain: string): Promise<AvailabilityResult> {
+  return (await searchTwentyI(domain)) ?? searchRegistry(domain);
+}
+
+function toOffer(result: AvailabilityResult): DomainOffer {
+  return {
+    ...result,
+    ...retailPricing(result.domain),
+    checkoutUrl: hostShopDomainUrl(result.domain),
+  };
+}
+
+async function buildSuggestions(domain: string) {
+  const base = getBaseName(domain);
+  const currentTld = domain.split(".").pop();
+  const candidates = SUGGESTION_TLDS.filter((tld) => tld !== currentTld)
+    .map((tld) => `${base}.${tld}`)
+    .slice(0, 5);
+
+  const settled = await Promise.allSettled(candidates.map((candidate) => lookup(candidate)));
+  return settled
+    .filter((entry): entry is PromiseFulfilledResult<AvailabilityResult> => entry.status === "fulfilled")
+    .map((entry) => toOffer(entry.value))
+    .filter((entry) => entry.available)
+    .slice(0, 4);
+}
+
 export async function GET(request: NextRequest) {
   const input = request.nextUrl.searchParams.get("domain") || "";
   const domain = normalizeDomain(input);
-  if (!isValidDomain(domain)) return NextResponse.json({ error: "Enter a valid domain name, such as yourbrand.com." }, { status: 400 });
-  const resellerResult = await searchTwentyI(domain);
-  if (resellerResult) return NextResponse.json({ ...resellerResult, ...retailPricing(domain) }, { headers: { "cache-control": "no-store" } });
+  if (!isValidDomain(domain)) {
+    return NextResponse.json({ error: "Enter a valid domain name, such as yourbrand.com." }, { status: 400 });
+  }
+
   try {
-    const registryResult = await searchRegistry(domain);
-    return NextResponse.json({ ...registryResult, ...retailPricing(domain) }, { headers: { "cache-control": "no-store" } });
-  } catch {
+    const result = await lookup(domain);
+    const suggestions = await buildSuggestions(domain);
+    return NextResponse.json(
+      { ...toOffer(result), suggestions },
+      { headers: { "cache-control": "no-store" } },
+    );
+  } catch (error) {
+    console.error("Domain availability lookup failed", error instanceof Error ? error.message : "unknown error");
     return NextResponse.json({ error: "Domain search is temporarily unavailable. Please try again shortly." }, { status: 503 });
   }
 }
