@@ -8,13 +8,13 @@ export const metadata: Metadata = {
 };
 
 const groups = [
-  { id: "shared", eyebrow: "SHARED HOSTING", title: "Straightforward hosting with clear limits.", description: "Four shared-hosting tiers for everything from a single website to larger multi-site portfolios, with easy upgrade paths as your needs grow." },
-  { id: "wordpress", eyebrow: "MANAGED WORDPRESS", title: "WordPress plans for businesses and agencies.", description: "Managed WordPress with staging, updates, backups, security, CDN, and developer workflows." },
-  { id: "woocommerce", eyebrow: "WOOCOMMERCE", title: "Store-focused hosting with room to grow.", description: "A stronger ecommerce path for customers who need WordPress commerce, faster performance, dependable recovery, and room to scale." },
-  { id: "vps", eyebrow: "VPS", title: "Private virtual servers for custom workloads.", description: "VPS options for applications, APIs, workers, development environments, and customers who need server-level control." },
-  { id: "cloud", eyebrow: "MANAGED CLOUD", title: "Dedicated resources without self-managing the whole stack.", description: "Managed cloud options for larger websites, stores, databases, and application workloads that need dedicated capacity." },
-  { id: "email", eyebrow: "BUSINESS EMAIL", title: "Professional email that grows with your business.", description: "Use professional mailboxes on your domain with options that can grow independently from your website hosting." },
-  { id: "addon", eyebrow: "ADD-ONS", title: "Performance, recovery, and security upgrades.", description: "Add extra speed, deeper backup coverage, stronger certificate options, and other services when your website needs more." },
+  { id: "shared", eyebrow: "SHARED HOSTING", title: "Simple hosting plans for websites of every size.", description: "Choose the plan that fits your site today, with clear storage, mailbox, database, and website limits." },
+  { id: "wordpress", eyebrow: "MANAGED WORDPRESS", title: "WordPress hosting that is ready to use.", description: "Launch and manage WordPress with staging, backups, security, CDN, and developer tools included." },
+  { id: "woocommerce", eyebrow: "WOOCOMMERCE", title: "Hosting built for online stores.", description: "Run WooCommerce with the performance, recovery, and scaling options an ecommerce site needs." },
+  { id: "vps", eyebrow: "VPS", title: "Private virtual servers for custom workloads.", description: "Choose VPS hosting when you need server-level control for applications, APIs, workers, or custom software." },
+  { id: "cloud", eyebrow: "MANAGED CLOUD", title: "Dedicated resources with managed support.", description: "A stronger fit for busy websites, larger stores, databases, and applications that need dedicated capacity." },
+  { id: "email", eyebrow: "BUSINESS EMAIL", title: "Professional email for your domain.", description: "Create business mailboxes for your domain without changing your website hosting plan." },
+  { id: "addon", eyebrow: "ADD-ONS", title: "Extra performance, security, and recovery when you need it.", description: "Add faster performance, extended backups, premium certificates, or more email storage without changing your core hosting plan." },
 ] as const;
 
 export default function ProductsPage() {
@@ -23,8 +23,8 @@ export default function ProductsPage() {
       <ProductHero
         eyebrow="Products"
         title="Everything you need to"
-        accent="build, run, and grow online."
-        description="Choose from shared hosting, WordPress, WooCommerce, VPS, managed cloud, business email, domains, backups, security, performance upgrades, and website services — all under one HostMyWeb account."
+        accent="run your website."
+        description="Choose hosting, WordPress, ecommerce, VPS, managed cloud, business email, domains, backups, security, and performance upgrades from one place."
       >
         <div className="hmw-subnav">
           <a href="#shared">Shared</a>
@@ -40,8 +40,8 @@ export default function ProductsPage() {
       <section className="hmw-product-catalog-intro">
         <div>
           <span className="hmw-storefront-kicker">HOSTMYWEB PRODUCT CATALOG</span>
-          <h2>Choose what fits today. Upgrade when you need more.</h2>
-          <p>Every HostMyWeb product is designed around a clear use case, straightforward pricing, and an easy path to more capacity, performance, or control as your website or application grows.</p>
+          <h2>Choose the service that fits what you are building.</h2>
+          <p>Start with hosting and a domain, then add email, backups, security, performance, or more server power as your website grows.</p>
         </div>
         <a className="hmw-button" href="/domains">Search a domain</a>
       </section>
@@ -80,13 +80,13 @@ export default function ProductsPage() {
       <section className="hmw-catalog-section" id="domains">
         <div className="hmw-catalog-heading">
           <span>DOMAINS</span>
-          <h2>Search, register, transfer, and manage your domains.</h2>
-          <p>Check availability in real time, compare popular alternatives, see pricing before purchase, and keep your domain and hosting services together.</p>
+          <h2>Find the right domain and keep everything together.</h2>
+          <p>Search live availability, compare popular alternatives, see pricing before checkout, or transfer a domain you already own.</p>
         </div>
         <div className="hmw-product-card-grid">
           <a className="hmw-product-card" href="/domains"><div className="hmw-product-card-top"><small>DOMAIN</small><span>Live search</span></div><h3>Domain Registration</h3><p>Search available domains, compare alternatives, and register the name that fits your business.</p><b>Search domains →</b></a>
-          <a className="hmw-product-card" href="/domains#transfer"><div className="hmw-product-card-top"><small>TRANSFER</small><span>Available</span></div><h3>Domain Transfer</h3><p>Move an eligible domain to HostMyWeb and manage it alongside your hosting and email services.</p><b>Transfer a domain →</b></a>
-          <a className="hmw-product-card" href="/domains"><div className="hmw-product-card-top"><small>DNS</small><span>Included</span></div><h3>DNS Management</h3><p>Manage website, email, verification, and service records for domains connected to HostMyWeb.</p><b>View domain services →</b></a>
+          <a className="hmw-product-card" href="/domains#transfer"><div className="hmw-product-card-top"><small>TRANSFER</small><span>Available</span></div><h3>Domain Transfer</h3><p>Transfer an eligible domain to HostMyWeb and manage it alongside your other services.</p><b>Transfer a domain →</b></a>
+          <a className="hmw-product-card" href="/domains"><div className="hmw-product-card-top"><small>DNS</small><span>Included</span></div><h3>DNS Management</h3><p>Manage the records that connect your domain to websites, email, and other online services.</p><b>View domain services →</b></a>
         </div>
       </section>
     </SiteFrame>
