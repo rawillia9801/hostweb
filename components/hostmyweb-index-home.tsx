@@ -13,13 +13,13 @@ const included = [
 
 const moreProducts = [
   { code: "WORDPRESS", title: "Managed WordPress", text: "WordPress-focused hosting with staging, management, backup, and developer workflows.", href: "/hosting/wordpress" },
-  { code: "PERFORMANCE", title: "Website Turbo", text: "High-frequency performance acceleration for demanding or traffic-sensitive websites.", href: "/products#performance" },
-  { code: "SECURITY", title: "Premium SSL", text: "Optional paid certificate products for customers who need more than standard included HTTPS.", href: "/products#performance" },
-  { code: "RECOVERY", title: "Timeline Backups Pro", text: "Extended snapshot-style recovery for customers who want a deeper backup history.", href: "/products#performance" },
-  { code: "EMAIL", title: "Mailbox Storage Upgrades", text: "Increase email capacity without forcing the website onto a larger hosting plan.", href: "/products#domains-email" },
+  { code: "PERFORMANCE", title: "Website Turbo", text: "Extra performance for demanding or traffic-sensitive websites.", href: "/products#addon" },
+  { code: "SECURITY", title: "Premium SSL", text: "Optional certificate products for customers who need more than standard included HTTPS.", href: "/products#addon" },
+  { code: "RECOVERY", title: "Timeline Backups Pro", text: "Extended recovery options for customers who want a deeper backup history.", href: "/products#addon" },
+  { code: "EMAIL", title: "Mailbox Storage Upgrades", text: "Increase email capacity without moving your website onto a larger hosting plan.", href: "/products#email" },
   { code: "SERVERS", title: "Managed Cloud", text: "Dedicated managed cloud resources for larger ecommerce, traffic, data, and application workloads.", href: "/hosting/cloud" },
   { code: "DEVELOPER", title: "VPS Hosting", text: "Private virtual-server resources for custom applications and server-level control.", href: "/hosting/vps" },
-  { code: "SERVICES", title: "Website Care & Setup", text: "Migration, setup, recovery, maintenance, and custom infrastructure help when software alone is not enough.", href: "/products#websites" },
+  { code: "SERVICES", title: "Website Care & Setup", text: "Migration, setup, recovery, maintenance, and custom help when you need more than hosting alone.", href: "/products" },
 ] as const;
 
 export function HostMyWebIndexHome() {
@@ -37,7 +37,7 @@ export function HostMyWebIndexHome() {
         <div className="hmw-storefront-copy">
           <span className="hmw-storefront-kicker">HOSTING, DOMAINS, EMAIL, SECURITY & WEBSITE SERVICES</span>
           <h1>Web hosting that stays <em>straightforward.</em></h1>
-          <p>Fast shared-cloud hosting backed by a broader catalog: domains, business email, WordPress, SSL, backups, performance upgrades, website tools, Managed Cloud, VPS, migrations, and hands-on services when you need them.</p>
+          <p>Fast shared-cloud hosting backed by a broader catalog: domains, business email, WordPress, SSL, backups, performance upgrades, Managed Cloud, VPS, migrations, and hands-on website services when you need them.</p>
           <div className="hmw-hero-checks">
             <span>✓ No promotional renewal jump</span>
             <span>✓ Unlimited bandwidth</span>
@@ -160,13 +160,13 @@ export function HostMyWebIndexHome() {
         <div className="hmw-section-head"><div><span className="hmw-storefront-kicker">HOSTING THAT CAN GROW WITH YOU</span><h2>Start shared. Move up when the workload changes.</h2><p>You should not have to leave your hosting company just because your website or application grows.</p></div><a className="hmw-text-link" href="/hosting">Compare hosting types →</a></div>
         <div className="hmw-scale-cards-home">
           <article><small>01</small><h3>Shared Cloud Hosting</h3><p>For business websites, WordPress, portfolios, blogs, and normal ecommerce workloads.</p><b>From $7.99/mo</b><a href="/hosting/shared">View shared hosting →</a></article>
-          <article><small>02</small><h3>Managed Cloud</h3><p>Dedicated cloud resources for higher traffic, larger ecommerce, and workloads needing more isolation.</p><b>Configured to order</b><a href="/hosting/cloud">Explore managed cloud →</a></article>
-          <article><small>03</small><h3>VPS Hosting</h3><p>Private virtual-server resources for custom applications, software stacks, and server-level control.</p><b>Configured to order</b><a href="/hosting/vps">Explore VPS hosting →</a></article>
+          <article><small>02</small><h3>Managed Cloud</h3><p>Dedicated cloud resources for higher traffic, larger ecommerce, and workloads needing more isolation.</p><b>Custom-sized managed hosting</b><a href="/hosting/cloud">Explore managed cloud →</a></article>
+          <article><small>03</small><h3>VPS Hosting</h3><p>Private virtual-server resources for custom applications, software stacks, and server-level control.</p><b>Flexible server options</b><a href="/hosting/vps">Explore VPS hosting →</a></article>
         </div>
       </section>
 
       <section className="hmw-bottom-cta">
-        <div><span>HOSTING, DOMAINS, EMAIL & MORE</span><h2>Start with what you need today.</h2><p>Choose hosting, search a domain, browse add-ons, or ask HostMyWeb to configure a larger workload.</p></div>
+        <div><span>HOSTING, DOMAINS, EMAIL & MORE</span><h2>Start with what you need today.</h2><p>Choose hosting, search a domain, browse add-ons, or ask HostMyWeb to help size a larger workload.</p></div>
         <div className="hmw-actions"><a className="hmw-button" href="/products">Browse Products</a><a className="hmw-button secondary" href="/support">Talk to HostMyWeb</a></div>
       </section>
     </SiteFrame>
