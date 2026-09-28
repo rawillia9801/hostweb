@@ -11,6 +11,7 @@ import "./commercial-site.css";
 import "./hosting-storefront.css";
 import "./product-marketplace.css";
 import "./domain-commerce.css";
+import "./high-tech.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://hostmyweb.co"),

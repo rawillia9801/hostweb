@@ -16,6 +16,7 @@ export function SiteHeader() {
         <a href="/security">Security</a>
         <a href="/support">Support</a>
       </nav>
+      <details className="tech-mobile-menu"><summary>Menu <span aria-hidden="true">+</span></summary><nav aria-label="Mobile navigation"><a href="/hosting">Hosting</a><a href="/products">Products</a><a href="/domains">Domains</a><a href="/email">Email</a><a href="/websites">Websites</a><a href="/security">Security</a><a href="/support">Support</a><a href="/account">Log in</a></nav></details>
       <div className="hmw-top-actions"><a href="/account">Log In</a><a className="cta" href="/signup">Get Started</a></div>
     </header>
   );

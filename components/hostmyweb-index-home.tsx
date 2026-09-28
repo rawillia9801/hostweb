@@ -2,173 +2,61 @@ import { DomainSearch } from "@/components/domain-search";
 import { SiteFrame } from "@/components/hostmyweb-site-chrome";
 import { HOSTING_PLAN_SLUGS, HOSTING_PLANS } from "@/lib/hosting-plans";
 
-const included = [
-  { icon: "◈", title: "Free standard migration", text: "Move a supported existing website to HostMyWeb without adding a migration charge." },
-  { icon: "⌁", title: "SSL + global CDN", text: "HTTPS and global content delivery are included with shared hosting." },
-  { icon: "↗", title: "SSH + Git access", text: "Developer tools are available across the shared-hosting family." },
-  { icon: "✦", title: "Backups + security", text: "Hosting includes backup and security tools for everyday website protection and recovery." },
-  { icon: "@", title: "Business email", text: "Every shared plan includes professional mailboxes with 10 GB per mailbox." },
-  { icon: "∞", title: "Unlimited bandwidth", text: "Shared plans do not meter normal website traffic with a monthly bandwidth allowance." },
-] as const;
+const services = [
+  { number: "01", title: "Shared cloud", detail: "For your first website. And your next.", href: "/hosting/shared", tag: "FROM $7.99 / MO" },
+  { number: "02", title: "WordPress", detail: "Build, stage, and manage your WordPress sites.", href: "/hosting/wordpress", tag: "BUILT FOR WORDPRESS" },
+  { number: "03", title: "Managed cloud", detail: "Dedicated resources for bigger ambitions.", href: "/hosting/cloud", tag: "ROOM TO SCALE" },
+  { number: "04", title: "Virtual servers", detail: "Your applications. Your server configuration.", href: "/hosting/vps", tag: "MORE CONTROL" },
+];
 
-const moreProducts = [
-  { code: "WORDPRESS", title: "Managed WordPress", text: "WordPress hosting with staging, backups, security, and developer tools included.", href: "/hosting/wordpress" },
-  { code: "PERFORMANCE", title: "Website Turbo", text: "Extra performance for demanding or traffic-sensitive websites.", href: "/products#addon" },
-  { code: "SECURITY", title: "Premium SSL", text: "Optional certificate products for sites that need more than standard included HTTPS.", href: "/products#addon" },
-  { code: "RECOVERY", title: "Timeline Backups Pro", text: "Extended recovery options with a deeper backup history.", href: "/products#addon" },
-  { code: "EMAIL", title: "Mailbox Storage Upgrades", text: "Add more email capacity without changing your hosting plan.", href: "/products#email" },
-  { code: "SERVERS", title: "Managed Cloud", text: "Dedicated managed cloud resources for larger websites, stores, and applications.", href: "/hosting/cloud" },
-  { code: "DEVELOPER", title: "VPS Hosting", text: "Private virtual-server resources for custom applications and server-level control.", href: "/hosting/vps" },
-  { code: "SERVICES", title: "Website Care & Setup", text: "Migration, setup, recovery, maintenance, and hands-on website help.", href: "/products" },
-] as const;
+function HostingDiagram() {
+  return <div className="tech-diagram" aria-label="Hosting includes SSL, a global CDN, SSD storage, backups, and business email">
+    <div className="tech-diagram-heading"><span>THE HOSTMYWEB STACK</span><span>01 / CLOUD HOSTING</span></div>
+    <div className="tech-orbit" aria-hidden="true">
+      <svg viewBox="0 0 600 430" fill="none">
+        <defs><linearGradient id="network-line"><stop stopColor="#63edff"/><stop offset="1" stopColor="#78ffb3"/></linearGradient></defs>
+        <g stroke="#254250" strokeWidth="1"><ellipse cx="300" cy="225" rx="250" ry="120"/><ellipse cx="300" cy="225" rx="180" ry="85"/><path d="M50 225H550M300 60V390M100 105L500 345M100 345L500 105"/></g>
+        <g stroke="url(#network-line)" strokeWidth="2"><path d="M300 215L120 125M300 215L480 125M300 215L120 325M300 215L480 325"/></g>
+        <g className="tech-pulses" fill="#75f7df"><circle cx="210" cy="170" r="4"/><circle cx="390" cy="170" r="4"/><circle cx="210" cy="270" r="4"/><circle cx="390" cy="270" r="4"/></g>
+      </svg>
+      <div className="tech-core"><span>H / W</span><small>YOUR WEBSITE</small></div>
+      <div className="tech-node node-a"><span>01</span><b>SSL + CDN</b></div>
+      <div className="tech-node node-b"><span>02</span><b>SSD storage</b></div>
+      <div className="tech-node node-c"><span>03</span><b>Backups</b></div>
+      <div className="tech-node node-d"><span>04</span><b>Business email</b></div>
+    </div>
+    <div className="tech-diagram-foot"><span>ONE HOME FOR YOUR WEBSITE</span><b>Ready for what’s next.</b></div>
+  </div>;
+}
 
 export function HostMyWebIndexHome() {
-  const starter = HOSTING_PLANS.starter;
-
-  return (
-    <SiteFrame>
-      <div className="hmw-promo-bar">
-        <span>HOSTMYWEB PRICE LOCK</span>
-        <b>Hosting from $7.99/mo — same base price at renewal.</b>
-        <a href="/hosting/shared">See plans →</a>
+  return <SiteFrame><div className="tech-home">
+    <section className="tech-hero">
+      <div className="tech-hero-copy">
+        <div className="tech-eyebrow"><span className="tech-index">H / W</span> HOSTING. WITHOUT THE HOLDUPS.</div>
+        <h1>Your next big thing.<br/><em>Built on a<br/>better home.</em></h1>
+        <p>Cloud hosting for websites that mean business. SSL, backups, email, and a global CDN—already included.</p>
+        <div className="tech-actions"><a className="tech-button" href="#plans">Find your hosting <span>↗</span></a><a className="tech-link" href="/hosting">Explore the platform <span>↗</span></a></div>
+        <div className="tech-hero-price"><strong>$7.99<span>/mo</span></strong><div>Start small. Build from here.<br/><b>Same base price at renewal.</b></div></div>
       </div>
+      <HostingDiagram />
+      <div className="tech-hero-footer"><span>THE ESSENTIALS. ALREADY CONNECTED.</span><div><span>SSL certificates</span><span>Global CDN</span><span>SSH + Git</span><span>Unlimited bandwidth</span></div></div>
+    </section>
 
-      <section className="hmw-storefront-hero">
-        <div className="hmw-storefront-copy">
-          <span className="hmw-storefront-kicker">WEB HOSTING, DOMAINS, EMAIL & WEBSITE SERVICES</span>
-          <h1>Reliable web hosting without <em>surprise renewal prices.</em></h1>
-          <p>Launch your website with hosting from $7.99 per month. SSL, CDN, backups, business email, and unlimited bandwidth are included, with WordPress, domains, VPS, and managed cloud options available when you need more.</p>
-          <div className="hmw-hero-checks">
-            <span>✓ Same base hosting price at renewal</span>
-            <span>✓ Unlimited bandwidth</span>
-            <span>✓ SSL + global CDN included</span>
-            <span>✓ Free standard website migration</span>
-          </div>
-          <div className="hmw-actions hmw-storefront-actions">
-            <a className="hmw-button" href="/hosting/shared">View Hosting Plans</a>
-            <a className="hmw-button secondary" href="/domains">Search a Domain</a>
-          </div>
-          <small className="hmw-hero-fineprint">Monthly billing available. No multi-year prepayment required to receive the advertised shared-hosting rate.</small>
-        </div>
+    <section className="tech-services" aria-label="Hosting services">
+      {services.map(service=><a href={service.href} key={service.number}><div><span className="tech-number">{service.number}</span><span className="tech-arrow">↗</span></div><h2>{service.title}</h2><p>{service.detail}</p><small>{service.tag}</small></a>)}
+    </section>
 
-        <aside className="hmw-hero-offer" aria-label="Starter hosting offer">
-          <div className="hmw-offer-topline"><span>STARTER HOSTING</span><b>PRICE LOCK</b></div>
-          <div className="hmw-offer-price"><sup>$</sup>{starter.monthlyPrice.toFixed(2)}<span>/month</span></div>
-          <p className="hmw-offer-renewal">Renews at <b>${starter.monthlyPrice.toFixed(2)}/mo</b> while the same plan remains continuously active.</p>
-          <ul>
-            <li><b>{starter.webspaceGb} GB SSD</b> webspace</li>
-            <li><b>{starter.websites}</b> website</li>
-            <li><b>{starter.mailboxes}</b> business mailboxes</li>
-            <li><b>{starter.databases}</b> MySQL databases</li>
-            <li><b>Unlimited</b> bandwidth</li>
-            <li><b>SSL, CDN, backups</b> included</li>
-          </ul>
-          <a className="hmw-offer-cta" href="/signup?plan=starter">Get Starter Hosting</a>
-          <a className="hmw-offer-link" href="/hosting/shared">Compare all four plans →</a>
-        </aside>
-      </section>
+    <section className="tech-domain" id="domains"><div><span className="tech-eyebrow">YOUR NEXT IDEA STARTS HERE</span><h2>Make a name<br/>for yourself.</h2><p>Find your domain. Give your next project a place on the web.</p><div className="tech-domain-prices"><span><b>.com</b> $17.99/yr</span><span><b>.net</b> $19.99/yr</span><span><b>.org</b> $17.99/yr</span></div></div><DomainSearch /></section>
 
-      <section className="hmw-trust-row" aria-label="HostMyWeb hosting highlights">
-        <div><b>$7.99</b><span>hosting from / month</span></div>
-        <div><b>Unlimited</b><span>bandwidth on shared plans</span></div>
-        <div><b>SSL + CDN</b><span>included with hosting</span></div>
-        <div><b>Free</b><span>standard website migration</span></div>
-      </section>
+    <section className="tech-plans" id="plans">
+      <div className="tech-section-heading"><div><span className="tech-eyebrow">01 / CHOOSE YOUR FOUNDATION</span><h2>More capability.<br/><em>Less complication.</em></h2></div><p>Four plans. Clear limits. The same base subscription price at renewal while your plan stays continuously active.</p></div>
+      <div className="tech-plan-grid">{HOSTING_PLAN_SLUGS.map((slug,index)=>{const plan=HOSTING_PLANS[slug];return <article className={`tech-plan ${slug==='business'?'tech-plan-featured':''}`} key={slug}><div className="tech-plan-top"><span>0{index+1} / {plan.code}</span>{slug==='business'&&<b>FOR GROWING BUSINESSES</b>}</div><h3>{plan.name}</h3><p>{slug==='starter'?'One site. A solid start.':slug==='business'?'Your business, with room to grow.':slug==='pro'?'More sites. More possibilities.':'A home for your client portfolio.'}</p><div className="tech-plan-price">${plan.monthlyPrice.toFixed(2)}<span>/mo</span></div><small>Same base rate at renewal</small><a href={`/signup?plan=${slug}`} className="tech-button">Choose {plan.name}<span>↗</span></a><ul><li><b>{plan.websites}</b> {plan.websites===1?'website':'websites'}</li><li><b>{plan.webspaceGb} GB</b> SSD storage</li><li><b>{plan.mailboxes}</b> business mailboxes</li><li><b>{plan.mailboxStorageGb} GB</b> per mailbox</li><li><b>{plan.databases}</b> MySQL databases</li></ul></article>;})}</div>
+      <div className="tech-plan-included"><strong>Every plan includes</strong><span>Unlimited bandwidth</span><span>SSL + global CDN</span><span>Backups</span><span>SSH + Git</span><span>Standard migration</span></div>
+    </section>
 
-      <section className="hmw-section hmw-plans-home" id="plans">
-        <div className="hmw-section-head hmw-centered-head">
-          <div>
-            <span className="hmw-storefront-kicker">WEB HOSTING PLANS</span>
-            <h2>Choose a plan that fits your website.</h2>
-            <p>Every plan shows exactly how many websites, how much storage, how many mailboxes, and how many databases are included.</p>
-          </div>
-        </div>
-        <div className="hmw-plan-grid-real hmw-home-plan-grid">
-          {HOSTING_PLAN_SLUGS.map((slug) => {
-            const plan = HOSTING_PLANS[slug];
-            return (
-              <article className={slug === "business" ? "hmw-plan-real featured hmw-home-plan" : "hmw-plan-real hmw-home-plan"} key={slug}>
-                {slug === "business" && <div className="hmw-plan-badge">MOST POPULAR</div>}
-                <h3>{plan.name}</h3>
-                <p className="hmw-plan-for">{slug === "starter" ? "A single business or personal site" : slug === "business" ? "Small businesses and growing sites" : slug === "pro" ? "Multi-site owners and developers" : "Agencies and larger site portfolios"}</p>
-                <div className="hmw-plan-price-real">${plan.monthlyPrice.toFixed(2)}<span>/mo</span></div>
-                <small className="hmw-same-renewal">Same base rate at renewal</small>
-                <ul>
-                  <li>{plan.websites === 1 ? "1 website" : `Up to ${plan.websites} websites`}</li>
-                  <li>{plan.webspaceGb} GB SSD webspace</li>
-                  <li>{plan.mailboxes} mailboxes × {plan.mailboxStorageGb} GB</li>
-                  <li>{plan.databases} MySQL databases</li>
-                  <li>Unlimited bandwidth</li>
-                  <li>SSL + global CDN</li>
-                  <li>SSH + Git available</li>
-                </ul>
-                <a className="hmw-button" href={`/signup?plan=${slug}`}>Choose {plan.name}</a>
-              </article>
-            );
-          })}
-        </div>
-      </section>
+    <section className="tech-capabilities"><div className="tech-section-heading"><div><span className="tech-eyebrow">02 / BEYOND THE BASICS</span><h2>The tools behind<br/><em>your next move.</em></h2></div><a className="tech-link" href="/products">Explore all products ↗</a></div><div className="tech-capability-grid"><a href="/security" className="tech-capability-security"><span className="tech-number">PROTECT</span><div className="tech-symbol" aria-hidden="true">[ / ]</div><h3>Keep your focus.<br/>Keep your site protected.</h3><p>SSL, backup options, and security products for the website you’re building.</p><b>Explore security ↗</b></a><a href="/email"><span className="tech-number">CONNECT</span><div className="tech-symbol" aria-hidden="true">@</div><h3>Your business.<br/>Your email address.</h3><p>Professional mailboxes that put your domain on every conversation.</p><b>Explore business email ↗</b></a><a href="/websites/migration"><span className="tech-number">MOVE FORWARD</span><div className="tech-symbol" aria-hidden="true">↗</div><h3>A fresh start.<br/>Without starting over.</h3><p>Standard supported website migrations are included. Ask us about your move.</p><b>Plan your migration ↗</b></a></div></section>
 
-      <section className="hmw-domain-home">
-        <div className="hmw-domain-home-copy">
-          <span className="hmw-storefront-kicker">DOMAIN NAMES</span>
-          <h2>Find the right domain for your website.</h2>
-          <p>Search live availability, compare popular extensions, and see pricing before you register.</p>
-          <div className="hmw-domain-prices"><span><b>.com</b> $17.99/yr</span><span><b>.org</b> $17.99/yr</span><span><b>.net</b> $19.99/yr</span><span><b>.us</b> $14.99/yr</span></div>
-        </div>
-        <div className="hmw-domain-home-search"><DomainSearch /></div>
-      </section>
-
-      <section className="hmw-section hmw-included-home">
-        <div className="hmw-section-head hmw-centered-head"><div><span className="hmw-storefront-kicker">INCLUDED WITH HOSTING</span><h2>Everything you need to keep your site online.</h2><p>Everyday essentials such as SSL, CDN, backups, email, migration help, and developer access are included across the shared-hosting lineup.</p></div></div>
-        <div className="hmw-included-grid">
-          {included.map((item) => <article key={item.title}><span>{item.icon}</span><div><h3>{item.title}</h3><p>{item.text}</p></div></article>)}
-        </div>
-      </section>
-
-      <section className="hmw-section hmw-marketplace-preview">
-        <div className="hmw-section-head">
-          <div>
-            <span className="hmw-storefront-kicker">MORE FROM HOSTMYWEB</span>
-            <h2>More hosting and website services when you need them.</h2>
-            <p>Choose WordPress hosting, business email, backups, security upgrades, VPS hosting, managed cloud, and website support as your needs grow.</p>
-          </div>
-          <a className="hmw-text-link" href="/products">Browse all products →</a>
-        </div>
-        <div className="hmw-marketplace-preview-grid">
-          {moreProducts.map((product) => (
-            <a className="hmw-marketplace-preview-card" href={product.href} key={product.title}>
-              <small>{product.code}</small>
-              <h3>{product.title}</h3>
-              <p>{product.text}</p>
-              <b>Learn more →</b>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section className="hmw-migration-band">
-        <div>
-          <span className="hmw-storefront-kicker light">MOVING FROM ANOTHER HOST?</span>
-          <h2>Bring your website with you.</h2>
-          <p>Standard supported website migrations are included. If your move is unusually complex, we will explain any extra work before it begins.</p>
-        </div>
-        <a className="hmw-button" href="/websites/migration">See Migration Options</a>
-      </section>
-
-      <section className="hmw-section hmw-scale-home">
-        <div className="hmw-section-head"><div><span className="hmw-storefront-kicker">HOSTING THAT CAN GROW WITH YOU</span><h2>Start with what you need today.</h2><p>Move to WordPress, managed cloud, or VPS hosting when your website or application needs more power or control.</p></div><a className="hmw-text-link" href="/hosting">Compare hosting types →</a></div>
-        <div className="hmw-scale-cards-home">
-          <article><small>01</small><h3>Shared Cloud Hosting</h3><p>Fast, affordable hosting for business websites, blogs, portfolios, and everyday ecommerce.</p><b>From $7.99/mo</b><a href="/hosting/shared">View shared hosting →</a></article>
-          <article><small>02</small><h3>Managed Cloud</h3><p>Dedicated cloud resources for busier websites, larger stores, and applications that need more capacity.</p><b>Managed dedicated resources</b><a href="/hosting/cloud">Explore managed cloud →</a></article>
-          <article><small>03</small><h3>VPS Hosting</h3><p>Private virtual servers for applications, APIs, custom software, and server-level control.</p><b>Flexible VPS options</b><a href="/hosting/vps">Explore VPS hosting →</a></article>
-        </div>
-      </section>
-
-      <section className="hmw-bottom-cta">
-        <div><span>READY TO GET STARTED?</span><h2>Choose hosting or search for your domain.</h2><p>Start with a hosting plan, find a domain name, or contact HostMyWeb if you need help choosing the right service.</p></div>
-        <div className="hmw-actions"><a className="hmw-button" href="/hosting/shared">View Hosting Plans</a><a className="hmw-button secondary" href="/domains">Search Domains</a></div>
-      </section>
-    </SiteFrame>
-  );
+    <section className="tech-closing"><span className="tech-eyebrow">BUILT FOR YOUR NEXT CHAPTER</span><h2>Go build<br/><em>something great.</em></h2><div><a className="tech-button" href="#plans">Choose your hosting <span>↗</span></a><a className="tech-link" href="/support">Let’s talk about your project ↗</a></div></section>
+  </div></SiteFrame>;
 }
