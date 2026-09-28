@@ -7,6 +7,7 @@ type SearchState = "idle" | "searching" | "available" | "registered" | "error";
 type DomainOffer = {
   domain: string;
   available: boolean;
+  availabilityConfirmed?: boolean;
   price?: number;
   renewalPrice?: number;
   transferPrice?: number;
@@ -111,10 +112,10 @@ export function DomainSearch() {
       {result && state === "available" && (
         <div className="domain-result available" role="status">
           <div>
-            <b>✓ {result.domain} is available</b>
+            <b>{result.domain} {result.availabilityConfirmed === false ? "may be available" : "is available"}</b>
             <span>{priceLabel(result)}</span>
           </div>
-          <a href={result.checkoutUrl}>Register domain →</a>
+          <a href={result.checkoutUrl}>{result.availabilityConfirmed === false ? "Confirm availability →" : "Register domain →"}</a>
         </div>
       )}
 
@@ -131,8 +132,8 @@ export function DomainSearch() {
       {!!result?.suggestions?.length && (
         <div className="domain-suggestions" aria-label="Available domain suggestions">
           <div className="domain-suggestions-title">
-            <strong>Available alternatives</strong>
-            <span>Checked live</span>
+            <strong>Alternative domains</strong>
+            <span>Confirm availability at checkout</span>
           </div>
           <div className="domain-suggestions-grid">
             {result.suggestions.map((suggestion) => (
@@ -141,7 +142,7 @@ export function DomainSearch() {
                   <b>{suggestion.domain}</b>
                   <span>{priceLabel(suggestion)}</span>
                 </div>
-                <a href={suggestion.checkoutUrl}>Register →</a>
+                <a href={suggestion.checkoutUrl}>{suggestion.availabilityConfirmed === false ? "Check availability →" : "Register →"}</a>
               </div>
             ))}
           </div>
